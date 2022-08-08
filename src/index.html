@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- 실제 테스트 하는 css 및 js -->
+    <link rel='stylesheet' type='text/css' media='screen' href='./calendar.css'>
+    <script src="./calendar.js"></script>
+
+
+    <!-- modal css 및 js -->
+    <link rel='stylesheet' type='text/css' media='screen' href='./sample/modal-add-example/modal.css'>
+
+  </head>
+  <body>
+    <div>
+      <div class="__calendar__container__">
+        <div class="__calendar__container__header__">
+          <div>
+            <div class="__calendar__arrow__prev__">
+              &lt;
+            </div>
+            <div class="__calendar__arrow__next__">
+              &gt;
+            </div>
+          </div>
+          <div class="__calendar__select__date__">
+            <span class="__current__select__year__">2022</span>
+            <span>.</span>
+            <span class="__current__select__month__">08</span>
+          </div>
+          <div class="__calendar__button__area__">
+            <button type="button">TODAY</button>
+          </div>
+        </div>
+        <div class="__calendar__container__body__">
+
+          <div class="__calendar__contents__ __type_calendar__ __is_active__">
+            <div class="__calendar__contents__header__">
+              <div class="__header__day_of_week__">일</div>
+              <div class="__header__day_of_week__">월</div>
+              <div class="__header__day_of_week__">화</div>
+              <div class="__header__day_of_week__">수</div>
+              <div class="__header__day_of_week__">목</div>
+              <div class="__header__day_of_week__">금</div>
+              <div class="__header__day_of_week__">토</div>
+            </div>
+            <div class="__calendar__contents__body__">
+              <div class="__body__day__box__ __prev__">
+                <div class="__day__">31</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">1</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">2</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">3</div>
+              </div>
+              <div class="__body__day__box__ __today__">
+                <div class="__day__">
+                  <span>4</span>
+                </div>
+                <div class="__event__">
+                  <div class="value1 single"><span>이벤트1ㅁㄴㅇㅁㅁㅇㄴㅁㄴㅁㅁ</span></div>
+                  <div class="value2 start full"><span>이벤트2</span></div>
+                </div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">5</div>
+                <div class="__event__">
+                  <div class="value1 empty"><span></span></div>
+                  <div class="value2 full"><span></span></div>
+                </div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">6</div>
+                <div class="__event__">
+                  <div class="value1 empty"><span></span></div>
+                  <div class="value2 full"><span></span></div>
+                </div>
+              </div>
+
+              <div class="__body__day__box__">
+                <div class="__day__">7</div>
+                <div class="__event__">
+                  <div class="value1 empty"><span></span></div>
+                  <div class="value2 full"><span></span></div>
+                </div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">8</div>
+                <div class="__event__">
+                  <div class="value1 empty"><span></span></div>
+                  <div class="value2 end full"><span></span></div>
+                </div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">9</div>
+                <div class="__event__">
+                  <div class="value1 start full"><span>9일 이벤트2</span></div>
+                </div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">10</div>
+                <div class="__event__">
+                  <div class="value1 end full"><span></span></div>
+                  <div class="value2 start single"><span>10일 이벤트1</span></div>
+                  <div class="value3 start full"><span>10일 이벤트2</span></div>
+                </div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">11</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">12</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">13</div>
+              </div>
+
+              <div class="__body__day__box__">
+                <div class="__day__">14</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">15</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">16</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">17</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">18</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">19</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">20</div>
+              </div>
+
+              <div class="__body__day__box__">
+                <div class="__day__">21</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">22</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">23</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">24</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">25</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">26</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">27</div>
+              </div>
+
+              <div class="__body__day__box__">
+                <div class="__day__">28</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">29</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">30</div>
+              </div>
+              <div class="__body__day__box__">
+                <div class="__day__">31</div>
+              </div>
+              <div class="__body__day__box__ __next__">
+                <div class="__day__">1</div>
+              </div>
+              <div class="__body__day__box__ __next__">
+                <div class="__day__">2</div>
+              </div>
+              <div class="__body__day__box__ __next__">
+                <div class="__day__">3</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="__calendar__contents__ __type_info__">
+            <div class="__calendar__contents__header__">
+              <div class="__calendar__select__day__">2022. 08. 06</div>
+              <div class="__calendar__select__close__"></div>
+            </div>
+            <div class="__calendar__contents__body__" style="height: 752px;">
+              <!-- <div class="__contents__body__event__container__"> -->
+                <ul class="__contents__body__event__container__ test-ul">
+                  <li class="__body__event__box__ value1">
+                    <input type="checkbox" checked />
+                    <i></i>
+                    <div class="title">이벤트 1</div>
+                    <div class="contents">
+                      <p>2022-08-02 14:00 ~ 2022-08-06 16:00</p>
+                      <div>
+                        이화진은 바보 멍청이
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              <!-- </div> -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- <div>
+      <button type="button" id="addEventModal">add event modal</button>
+    </div> -->
+
+    <div id="my-calendar">
+    </div>
+
+    <div class="modal-layer" id="my-modal">
+      <div class="modal-container">
+        <div class="modal-header">
+          <div class="modal-title">이벤트 추가</div>
+          <div class="close-btn-wrapper">
+            <div class="close" name="close-btn"></div>
+          </div>
+        </div>
+        <form id="register-event-form">
+          <div class="modal-contents">
+            <div class="register-event-container">
+              <table class="type-info">
+                <colgroup>
+                  <col style="width: 30%" />
+                  <col style="width: 70%" />
+                </colgroup>
+                <thead></thead>
+                <tbody>
+                  <tr>
+                    <th>이벤트명</th>
+                    <td>
+                      <input type="text" placeholder="이벤트명을 입력해주세요." name="title" required />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>시작일</th>
+                    <td>
+                      <input type="date" placeholder="시작일을 입력해주세요." name="start" required />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>종료일</th>
+                    <td>
+                      <input type="date" placeholder="종료일을 입력해주세요." name="end" required />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>내용</th>
+                    <td>
+                      <textarea placeholder="내용을 입력하세요."
+                          style="resize: none;"
+                      ></textarea>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="close-wrapper">
+              <button type="submit">저장</button>
+              <button type="button" name="close-btn">닫기</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    (function () {
+
+      const options = {
+        /**
+         * 일 선택 시 이벤트 콜백
+         */
+        // callbackOnClickSelectDay: function (data) {
+        //   console.log(data);
+        // },
+      };
+
+      // const myCalendar = new CALENDAR('my-calendar', options);
+
+      // modal
+      const myModal = document.getElementById('my-modal');
+
+      // open button
+      const modalOpenBtn = document.getElementById('addEventModal');
+
+      // close button
+      const modalCloseBtnList = myModal.querySelectorAll('[name=close-btn]');
+
+      // form
+      const $form = document.getElementById('register-event-form');
+
+      // modal 열기 이벤트
+      if (modalOpenBtn) {
+        modalOpenBtn.onclick = function (e) {
+          resetFormValueByTag($form, 'input');
+          resetFormValueByTag($form, 'textarea');
+          toggleClass(myModal, 'is-active');
+        };
+      }
+
+      // modal 닫기 이벤트
+      if (modalCloseBtnList && modalCloseBtnList.length) {
+        for (let i =0; i < modalCloseBtnList.length ;i++) {
+          const modalCloseBtn = modalCloseBtnList[i];
+          modalCloseBtn.onclick = function (e) {
+            toggleClass(myModal, 'is-active');
+          }
+        }
+      }
+
+      // 모달 외부를 클릭 시 모달 닫기 이벤트
+      document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('modal-layer')) {
+          toggleClass(myModal, 'is-active');
+        }
+      });
+      
+
+      // 클래스 토글 이벤트
+      function toggleClass(e, className) {
+        if (e && e.classList) {
+          if (e.classList.contains(className)) {
+            e.classList.remove(className);
+          } else {
+            e.classList.add(className);
+          }
+        }
+      }
+
+      // form value 초기화 
+      const resetFormValueByTag = function (formEl, tagName) {
+        if (formEl) {
+          const $tagList = formEl.querySelectorAll(tagName);
+
+          for (let i=0; i < $tagList.length; i++) {
+            const tag = $tagList[i];
+
+            tag.value = '';
+          }
+        }
+      };
+
+      // 등록 이벤트
+      $form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const _title = $form.querySelector('[name=title]');
+        const _start = $form.querySelector('[name=start]');
+        const _end = $form.querySelector('[name=end]');
+
+        const _titleValue = _title.value;
+        const _startValue = _start.value;
+        const _endValue = _end.value;
+
+        if (_endValue < _startValue) {
+          alert(' 시작일을 종료일보다 이전 혹은 같게 설정해주세요. ');
+          return false;
+        }
+
+        const event = {
+          id: uuidv4().replace(/\-/gi, ''),
+          title: _titleValue,
+          start: _startValue,
+          end: _endValue
+        };
+
+        myCalendar.addEvent(event);
+        toggleClass(myModal, 'is-active');
+      });
+
+
+      console.log(myCalendar);
+
+      // uuid generates
+      function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      }
+    })();
+  </script>
+</html>
