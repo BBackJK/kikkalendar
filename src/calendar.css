@@ -15,16 +15,59 @@ HEADER
   justify-content: space-between;
 }
 
+.__calendar__container__ .__calendar__container__header__ div {
+  margin:auto 0;
+}
+
 .__calendar__arrow__prev__,
 .__calendar__arrow__next__ {
   display: inline-block;
   width:1em;
   height:1em;
   text-align: center;
-  font-size: 2.5em;
+  font-size: 2.0em;
   cursor: pointer;
 }
 
+.__calendar__arrow__next__ {
+  margin-left:5px !important;
+}
+
+.__calendar__arrow__prev__ i {
+  /* margin-left:10px; */
+}
+
+.__calendar__arrow__prev__ i::after {
+  transform: rotate(135deg);
+  margin-top: 15px;
+}
+
+.__calendar__arrow__prev__ i::before {
+  transform: rotate(45deg);
+  margin-top: 5px;
+}
+
+.__calendar__arrow__next__ i::after {
+  transform: rotate(45deg);
+  margin-top: 15px;
+}
+
+.__calendar__arrow__next__ i::before {
+  transform: rotate(135deg);
+  margin-top: 5px;
+}
+
+.__calendar__arrow__prev__ i::after,
+.__calendar__arrow__prev__ i::before,
+.__calendar__arrow__next__ i::after,
+.__calendar__arrow__next__ i::before {
+  content: "";
+  position: absolute;
+  /* background-color: #ace5ee; */
+  background-color: black;
+  width: 3px;
+  height: 15px;
+}
 
 .__calendar__container__ .__calendar__container__header__ .__calendar__select__date__ {
   font-size: 2.5em;
@@ -46,7 +89,7 @@ HEADER
 BODY
 ============================= */
 .__calendar__container__ .__calendar__container__body__ {
-  margin-top: 20px;
+  margin-top: 5px;
   text-align: center;
 }
 
@@ -99,15 +142,24 @@ BODY - TYPE: calendar
 .__calendar__contents__.__type_calendar__ .__calendar__contents__body__ .__body__day__box__ {
   flex: 1 1 13%;
   height: 7.5em;
-  padding-top: 10px;
+  padding-top: 5px;
   padding-bottom: 10px;
   border: 1px solid #F8F8F8;
   text-align: left;
 }
 
 .__calendar__contents__.__type_calendar__ .__calendar__contents__body__ .__body__day__box__ .__day__ {
-  margin-right: 10px;
+  margin-right: 5px;
   text-align: right;
+}
+
+.__calendar__contents__.__type_calendar__ .__calendar__contents__body__ .__body__day__box__ .__day__ span { 
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 50%;
 }
 
 
@@ -117,32 +169,37 @@ BODY - TYPE: calendar
   color: #C0C0C0;
 }
 
-.__body__day__box__.__today__ {
-  background-color: #FFFFF5;
-}
-
-.__body__day__box__.__today__ .__day__ span::before {
-  content: 'today';
-  font-size:12px;
-  color:#C0C0C0;
-  margin-right:3px;
+.__body__day__box__.__today__ .__day__ span {
+  background-color: #667cd9;
+  color:#fff;
 }
 
 .__body__day__box__ .__event__ {
-  margin-top:10px;
+  margin-top:5px;
   font-size:14px;
+  max-height: calc(100% - 35px);
 }
 .__body__day__box__ .__event__ div + div {
   margin-top:3px;
 }
 
 .__body__day__box__ .__event__ div {
-  width:calc(100% + 1px);
   height:20px;
-  border: 1px solid #fff;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-all;
+}
+
+.__body__day__box__ .__event__ div span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  height: 18px;
+}
+
+.__body__day__box__ .__event__ div span #text {
+  height:20px;
 }
 
 .__body__day__box__ .__event__ .full span {
@@ -243,13 +300,17 @@ BODY - TYPE: info
   text-align: left;
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ {
-  overflow-y: auto;
-  height:100%;
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ div.__contents__body__event__container__ {
+  /* height:100%; */
+  text-align: center;
+}
+
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ {
+  /* height:100%; */
   list-style:none;
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ {
   position: relative;
   padding: 0;
   margin: 0;
@@ -258,46 +319,55 @@ BODY - TYPE: info
   /* border-top: 1px dotted #dce7eb; */
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ i {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ i {
   position: absolute;
   transform: translate(-6px, 0);
   margin-top: 12px;
   right: 36px;
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ i::before,
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ i::after  {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ i::before,
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ i::after  {
   content: "";
   position: absolute;
-  background-color: #ace5ee;
+  /* background-color: #ace5ee; */
+  background-color: black;
   width: 3px;
   height: 9px;
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ i::before {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ i::before {
   transform: translate(-2px, 0) rotate(45deg);
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ i::after {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ i::after {
   transform: translate(2px, 0) rotate(-45deg);
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ i::before,
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ i::after,
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ .contents  {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ i::before,
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ i::after,
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .contents  {
   transition: all 0.25s ease-in-out;
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ input[type=checkbox] {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .contents  {
+  position: relative;
+  overflow: hidden;
+  max-height: 100%;
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ input[type=checkbox] {
   position: absolute;
   cursor: pointer;
   width: 100%;
-  height: 20%;
+  height: 32px;
   z-index: 1;
   opacity: 0;
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ .title {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .title {
   font-size: 18px;
   line-height: 34px;
   letter-spacing: 1px;
@@ -306,21 +376,22 @@ BODY - TYPE: info
   cursor: pointer;
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ input[type=checkbox]:checked ~ .contents {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ input[type=checkbox]:checked ~ .contents {
   margin-top: 0;
   max-height: 0;
   opacity: 0;
+  transform: translate(0, 50%);
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ input[type=checkbox]:checked ~ i::before {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ input[type=checkbox]:checked ~ i::before {
   transform: translate(2px, 0) rotate(45deg);
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ input[type=checkbox]:checked ~ i::after {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ input[type=checkbox]:checked ~ i::after {
   transform: translate(-2px, 0) rotate(-45deg);
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ .title::before {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .title::before {
   content: '';
   border-right-width: 22px;
   border-right-style: solid;
@@ -330,7 +401,7 @@ BODY - TYPE: info
   border-right-color: #ace5ee;
 }
 
-/* .__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ .__event__ .__event__title__::before {
+/* .__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .__event__ .__event__title__::before {
   content: '';
   border-right-width: 22px;
   border-right-style: solid;
@@ -339,14 +410,14 @@ BODY - TYPE: info
   border-radius: 50%;
 } */
 
-/* .__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ .__event__ .__event__title__.value1::before {
+/* .__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .__event__ .__event__title__.value1::before {
   border-right-color: #ace5ee;
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ .__event__ .__event__title__.value2::before {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .__event__ .__event__title__.value2::before {
   border-right-color: #ff6347;
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ .__contents__body__event__container__ .__body__event__box__ .__event__ .__event__title__.value3::before {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .__event__ .__event__title__.value3::before {
   border-right-color: #EAE3D2;
 } */

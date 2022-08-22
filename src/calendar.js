@@ -11,11 +11,6 @@
     const yyyy = this.getFullYear().toString();
     const MM = zp(this.getMonth() + 1,2);
     const dd = zp(this.getDate(), 2);
-    // var hh = zp(this.getHours(), 2);
-    // var mm = zp(this.getMinutes(), 2)
-    // var ss = zp(this.getSeconds(), 2)
-  
-    // return yyyy +  MM + dd+  hh + mm + ss;
     return yyyy +  MM + dd;
   };
 
@@ -85,13 +80,14 @@
   // global event 목록
   let g_events = [];
 
-  const CALENDAR = function(rootId, _options) {
+  const CALENDAR = function(rootId, options) {
 
     rootId = rootId || 'my-calendar';
 
     const _this = this;
 
     _this.root = undefined;
+
     _this.currentMonthInfo = {
       year: new Date().getFullYear(), // 현재 선택한 달 년 정보
       month: new Date().getMonth() + 1, // 현재 선택한 달 정보
@@ -100,7 +96,8 @@
       endDate: undefined,
       today: new Date(),
     };
-    _this.options = _options || {};
+
+    _this.options = options || {};
 
     init(_this, rootId);
 
@@ -189,16 +186,16 @@
   const drawCalendarHeader = function () {
 
     let nodeString = '<div class="' + CLS_CAL_CONTAINER_HEADER + '">';
-    nodeString += '<div>';
-    nodeString += '<div class="' + CLS_CAL_ARROW_PREV + '" name="' + CLS_CAL_ARROW_PREV + '">&lt;</div>';
-    nodeString += '<div class="' + CLS_CAL_ARROW_NEXT + '" name="' + CLS_CAL_ARROW_NEXT + '">&gt;</div>';
-    nodeString += '</div>';
+    nodeString += '<div class="' + CLS_CAL_TODAY_BTN_AREA + '"><button type="button" name="' + CLS_CAL_TODAY_BTN_AREA + '">TODAY</button></div>';
     nodeString += '<div class="' + CLS_CAL_SELECT_DATE + '">';
     nodeString += '<span class="' + CLS_CURRNET_DATE_YEAR + '" name="' + CLS_CURRNET_DATE_YEAR + '">' + 0 + '</span>';
     nodeString += '<span> . </span>';
     nodeString += '<span class="' + CLS_CURRNET_DATE_MONTH + '" name="' + CLS_CURRNET_DATE_MONTH + '">' + 0 + '</span>';
     nodeString += '</div>';
-    nodeString += '<div class="' + CLS_CAL_TODAY_BTN_AREA + '"><button type="button" name="' + CLS_CAL_TODAY_BTN_AREA + '">TODAY</button></div>';
+    nodeString += '<div>';
+    nodeString += '<div class="' + CLS_CAL_ARROW_PREV + '" name="' + CLS_CAL_ARROW_PREV + '"><i></i></div>';
+    nodeString += '<div class="' + CLS_CAL_ARROW_NEXT + '" name="' + CLS_CAL_ARROW_NEXT + '"><i></i></div>';
+    nodeString += '</div>';
     nodeString += '</div>';
 
     return nodeString;
@@ -399,23 +396,22 @@
     showCalContentsBodyOfType(_context_, CLS_CAL_BODY_TYPE_CALENDAR);
   }
 
-  // 공통 그리기
+  // 공통 그리기 TODO: 최적화..
   const drawBindingData = function (_context_) {
-    // g_events = [];
     // 값 바인딩
 
     // 이벤트 초기화
     resetEvent(_context_);
 
     // 달력 그린 후
-    bindSelectDate(_context_);
-    bindCalendarDays(_context_);
+    bindSelectDate(_context_); // 선택한 날짜 년월 바인딩
+    bindCalendarDays(_context_); // 선택한 날짜 일 그리기 바인딩
 
     // 이벤트 그리기
     drawEvent(_context_);
   };
 
-  // 선택한 날짜 년월 바인딩 
+  // 선택한 날짜 년월 바인딩
   const bindSelectDate = function (_context_) {
     const $root = _context_.root;
 
@@ -453,7 +449,7 @@
         }
 
         nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX + ' ' + CLS_CAL_BODY_BODY_DAY_PREV + '" id="d' + day.id + '" name="' + CLS_CAL_BODY_BODY_DAY_BOX + '">';
-        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX_DAY + '">' + day.day + '</div>'
+        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX_DAY + '"><span>' + day.day + '</span></div>'
         nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_EVENTS + '"></div>'
         nodeString += '</div>';
       }
@@ -467,11 +463,7 @@
         nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX;
         if (todayYn) nodeString += ' ' + CLS_CAL_BODY_BODY_DAY_TODAY;
         nodeString += '" id="d' + day.id + '"  name="' + CLS_CAL_BODY_BODY_DAY_BOX + '">';
-        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX_DAY + '">';
-        if (todayYn) nodeString += '<span>';
-        nodeString += day.day;
-        if (todayYn) nodeString += '</span>';
-        nodeString += '</div>'
+        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX_DAY + '"><span>' + day.day + '</span></div>';
         nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_EVENTS + '"></div>'
         nodeString += '</div>';
       });
@@ -488,7 +480,7 @@
         }
 
         nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX + ' ' + CLS_CAL_BODY_BODY_DAY_NEXT + '" id="d' + day.id + '"  name="' + CLS_CAL_BODY_BODY_DAY_BOX + '">';
-        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX_DAY + '">' + day.day + '</div>'
+        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX_DAY + '"><span>' + day.day + '</span></div>'
         nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_EVENTS + '"></div>'
         nodeString += '</div>';
       }
