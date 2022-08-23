@@ -34,7 +34,7 @@
               &gt;
             </div>
           </div> -->
-          <div>
+          <div class="__calendar__arrow__container__">
             <div class="__calendar__arrow__prev__">
               <i></i>
             </div>
@@ -198,22 +198,22 @@
             </div>
           </div>
 
-          <div class="__calendar__contents__ __type_info__ __is_active__">
+          <div class="__calendar__contents__ __type_info__">
             <div class="__calendar__contents__header__">
               <div class="__calendar__select__day__">2022. 08. 06</div>
               <div class="__calendar__select__close__"></div>
             </div>
             <div class="__calendar__contents__body__" style="height: 752px;">
                 <div class="__contents__body__event__container__">
-                  <span>이벤트가 없습니다.</ㅔ>
+                  <span>이벤트가 없습니다.</span>
                 </div>
                 
                 <ul class="__contents__body__event__container__">
                   <li class="__body__event__box__ value1">
                     <input type="checkbox" checked />
                     <i></i>
-                    <div class="title">이벤트 1</div>
-                    <div class="contents">
+                    <div class="__title__">이벤트 1</div>
+                    <div class="__contents__">
                       <p>2022-08-02 14:00 ~ 2022-08-06 16:00</p>
                       <div>이화진은 바보 멍청이</div>
                     </div>
@@ -221,8 +221,8 @@
                   <li class="__body__event__box__ value2">
                     <input type="checkbox" checked />
                     <i></i>
-                    <div class="title">이벤트 2</div>
-                    <div class="contents">
+                    <div class="__title__">이벤트 2</div>
+                    <div class="__contents__">
                       <p>2022-08-02 14:00 ~ 2022-08-06 16:00</p>
                       <div>이화진은 바보 멍청이</div>
                     </div>
@@ -230,8 +230,8 @@
                   <li class="__body__event__box__ value3">
                     <input type="checkbox" checked />
                     <i></i>
-                    <div class="title">이벤트 3</div>
-                    <div class="contents">
+                    <div class="__title__">이벤트 3</div>
+                    <div class="__contents__">
                       <p>2022-08-02 14:00 ~ 2022-08-06 16:00</p>
                       <div>이화진은 바보 멍청이</div>
                     </div>
@@ -245,9 +245,9 @@
       </div>
     </div>
 
-    <!-- <div>
+    <div>
       <button type="button" id="addEventModal">add event modal</button>
-    </div> -->
+    </div>
 
     <div id="my-calendar">
     </div>
@@ -292,6 +292,7 @@
                     <th>내용</th>
                     <td>
                       <textarea placeholder="내용을 입력하세요."
+                          name="contents"
                           style="resize: none;"
                       ></textarea>
                     </td>
@@ -395,10 +396,12 @@
         const _title = $form.querySelector('[name=title]');
         const _start = $form.querySelector('[name=start]');
         const _end = $form.querySelector('[name=end]');
+        const _contents = $form.querySelector('[name=contents]');
 
         const _titleValue = _title.value;
         const _startValue = _start.value;
         const _endValue = _end.value;
+        const _contentsValue = _contents.value;
 
         if (_endValue < _startValue) {
           alert(' 시작일을 종료일보다 이전 혹은 같게 설정해주세요. ');
@@ -409,7 +412,8 @@
           id: uuidv4().replace(/\-/gi, ''),
           title: _titleValue,
           start: _startValue,
-          end: _endValue
+          end: _endValue,
+          contents: _contentsValue, 
         };
 
         myCalendar.addEvent(event);

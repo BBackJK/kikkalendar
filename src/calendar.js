@@ -14,6 +14,17 @@
     return yyyy +  MM + dd;
   };
 
+  Date.prototype.hyphenYYYYMMDDHHMM = function () {
+    const yyyy = this.getFullYear().toString();
+    const MM = zp(this.getMonth() + 1,2);
+    const dd = zp(this.getDate(), 2);
+
+    const hh = zp(this.getHours(), 2);
+    const mm = zp(this.getMinutes(), 2);
+
+    return yyyy + '-' + MM + '-' + dd + ' ' + hh + ':' + mm;
+  };
+
   String.prototype.toDate = function () {
     if (this.length === 8) {
       var sYear = this.substring(0,4);
@@ -39,6 +50,7 @@
   const CLS_CAL_CONTAINER_HEADER = '__calendar__container__header__';
   const CLS_CAL_CONTAINER_BODY = '__calendar__container__body__';
 
+  const CLS_CAL_ARROW_CONTAINER = '__calendar__arrow__container__';
   const CLS_CAL_ARROW_PREV = '__calendar__arrow__prev__';
   const CLS_CAL_ARROW_NEXT = '__calendar__arrow__next__';
   const CLS_CAL_TODAY_BTN_AREA = '__calendar__button__area__';
@@ -69,7 +81,8 @@
 
   const CLS_SELECT_INFO_EVENT_CONTAINER = '__contents__body__event__container__';
   const CLS_SELECT_INFO_EVENT_BOX = '__body__event__box__';
-  const CLS_EVENT_EMPTY = '__empty__';
+  const CLS_SELECT_INFO_EVENT_TITLE = '__title__';
+  const CLS_SELECT_INFO_EVENT_CONTENTS = '__contents__';
 
   // 이벤트 클릭 시 핸들링 할 수 있는 콜백함수명들
   const EVENT_SELECT_DAY_CLICK = 'callbackOnClickSelectDay';
@@ -192,9 +205,9 @@
     nodeString += '<span> . </span>';
     nodeString += '<span class="' + CLS_CURRNET_DATE_MONTH + '" name="' + CLS_CURRNET_DATE_MONTH + '">' + 0 + '</span>';
     nodeString += '</div>';
-    nodeString += '<div>';
-    nodeString += '<div class="' + CLS_CAL_ARROW_PREV + '" name="' + CLS_CAL_ARROW_PREV + '"><i></i></div>';
-    nodeString += '<div class="' + CLS_CAL_ARROW_NEXT + '" name="' + CLS_CAL_ARROW_NEXT + '"><i></i></div>';
+    nodeString += '<div class="' + CLS_CAL_ARROW_CONTAINER + '">';
+    nodeString += '<div class="' + CLS_CAL_ARROW_PREV + '" name="' + CLS_CAL_ARROW_PREV + '"><i name="' + CLS_CAL_ARROW_PREV + '"></i></div>';
+    nodeString += '<div class="' + CLS_CAL_ARROW_NEXT + '" name="' + CLS_CAL_ARROW_NEXT + '"><i name="' + CLS_CAL_ARROW_NEXT + '"></i></div>';
     nodeString += '</div>';
     nodeString += '</div>';
 
@@ -231,9 +244,7 @@
     nodeString += '<div class="' + CLS_SELECT_INFO_CLOSE_BTN + '" name="' + CLS_SELECT_INFO_CLOSE_BTN + '"></div>';
     nodeString += '</div>';
     nodeString += '<div class="' + CLS_CAL_BODY_CONTENTS__BODY + '">';
-    nodeString += '<div class="' + CLS_SELECT_INFO_EVENT_CONTAINER + '">';
-    nodeString += '<div class="' + CLS_SELECT_INFO_EVENT_BOX + '  ' + CLS_EVENT_EMPTY + '"><p>이벤트 목록이 없습니다.</p></div>';
-    nodeString += '</div>';
+    nodeString += '<div class="' + CLS_SELECT_INFO_EVENT_CONTAINER + '"><span>이벤트가 없습니다.</span></div>';
     nodeString += '</div>';
     nodeString += '</div>';
     return nodeString;
@@ -363,7 +374,7 @@
       const parameter = {
         date: targetDateOfDayId,
         eventList: targetEventList,
-      }
+      };
       
       callbackFunc(parameter);
       return false;
@@ -374,7 +385,8 @@
 
       // 현재 캘린더 높이 값 구하기
       const calendarTypeContents = getNodeElementByCalContentsType(_context_, CLS_CAL_BODY_TYPE_CALENDAR);
-      const calendarTypeContentsHeight = calendarTypeContents ? calendarTypeContents.clientHeight + 1 : CALENDAR_DEFAULT_ELEMENT_HEIGHT_VALUE;
+
+      const calendarTypeContentsHeight = calendarTypeContents ? calendarTypeContents.clientHeight : CALENDAR_DEFAULT_ELEMENT_HEIGHT_VALUE;
 
       // 구한 높이값으로 contents 바디값 설정
       const infoTypeContents = getNodeElementByCalContentsType(_context_, CLS_CAL_BODY_TYPE_INFO);
@@ -382,7 +394,7 @@
         infoTypeContents.style.height = calendarTypeContentsHeight + 'px';
       }
 
-      bindSelectDay(_context_, targetDateOfDayId);
+      bindSelectDay(_context_, targetDateOfDayId); // 선택한 일 정보 바인딩
       resetSelectDayEvent(_context_); // 이벤트 목록 class 초기화
       bindSelectDayEventList(_context_, targetEventList);  // TODO: 선택한 날짜 이벤트 목록 바인딩.
 
@@ -518,10 +530,14 @@
       const $infoTypeContentsBody = $infoTypeContents.querySelector('.' + CLS_CAL_BODY_CONTENTS__BODY);
 
       if ($infoTypeContentsBody) {
+
+        const infoTypeContentsBodyEventDivContainerHtml = '<div class="' +  CLS_SELECT_INFO_EVENT_CONTAINER + '"></div>';
+        $infoTypeContentsBody.innerHTML = infoTypeContentsBodyEventDivContainerHtml;
+
         const $infoTypeContentsBodyEventContainer = $infoTypeContentsBody.querySelector('.' + CLS_SELECT_INFO_EVENT_CONTAINER);
 
         if ($infoTypeContentsBodyEventContainer) {
-          $infoTypeContentsBodyEventContainer.innerHTML = '<div class="' + CLS_SELECT_INFO_EVENT_BOX + '  ' + CLS_EVENT_EMPTY + '"><p>이벤트 목록이 없습니다.</p></div>';
+          $infoTypeContentsBodyEventContainer.innerHTML = '<span>이벤트가 없습니다.</span>';
         }
       }
     }
@@ -540,24 +556,45 @@
       const $infoTypeContentsBody = $infoTypeContents.querySelector('.' + CLS_CAL_BODY_CONTENTS__BODY);
 
       if ($infoTypeContentsBody) {
-        const $infoTypeContentsBodyEventContainer = $infoTypeContentsBody.querySelector('.' + CLS_SELECT_INFO_EVENT_CONTAINER);
+        if (Array.isArray(eventList) && eventList.length > 0) {
+          const infoTypeContentsBodyEventUlContainerHtml = '<ul class="' +  CLS_SELECT_INFO_EVENT_CONTAINER + '"></ul>';
+          $infoTypeContentsBody.innerHTML = infoTypeContentsBodyEventUlContainerHtml;
 
-        console.log($infoTypeContentsBodyEventContainer);
-        console.log(eventList);
-        // TODO: 작업해야함.
-        /*
-        diffDays: 9
-        end: "2022-08-12"
-        endDate: Fri Aug 12 2022 00:00:00 GMT+0900 (한국 표준시) {}
-        endDateId: "20220812"
-        id: "2f669b14b9694c18816128217de37158"
-        start: "2022-08-03"
-        startDate: Wed Aug 03 2022 00:00:00 GMT+0900 (한국 표준시) {}
-        startDateId: "20220803"
-        title: "21321321"
-        */
+          const $infoTypeContentsBodyEventContainer = $infoTypeContentsBody.querySelector('.' + CLS_SELECT_INFO_EVENT_CONTAINER);
+
+          let eventListElStr = makeEventListElement(eventList);
+          $infoTypeContentsBodyEventContainer.innerHTML = eventListElStr;
+        }
       }
     }
+  };
+
+  // 이벤트 목록 html string 만들기
+  const makeEventListElement = function (_eventList) {
+    let str = '';
+  
+
+    let eventCount = 1;
+
+    _eventList.forEach(function(_event) {
+      _event = _event || {};
+      const title = _event.title || '';
+      const startValue = _event.startDate.hyphenYYYYMMDDHHMM();
+      const endValue = _event.endDate.hyphenYYYYMMDDHHMM();
+      const conts = _event.contents;
+
+      str += '<li class="' + CLS_SELECT_INFO_EVENT_BOX + ' value' + eventCount + '">';
+      str += '<input type="checkbox" checked />';
+      str += '<i></i>';
+      str += '<div class="' + CLS_SELECT_INFO_EVENT_TITLE + '">' + title + '</div>';
+      str += '<div class="' + CLS_SELECT_INFO_EVENT_CONTENTS + '">';
+      str += '<p>' + startValue + ' ~ ' + endValue + '</p>';
+      str += '<div>' + conts + '</div>';
+      str += '</div>';
+      str += '</li>';
+    });
+
+    return str;
   };
 
   // 현재 선택한 날짜의 이전 일자 달력 계산

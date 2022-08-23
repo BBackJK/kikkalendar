@@ -1,4 +1,34 @@
 /* =============================
+RESET CSS
+============================= */
+
+div.__calendar__container__ {
+  border:0;font-size:100%;font:inherit;margin:0;padding:0;vertical-align:baseline
+}
+
+div.__calendar__container__ div,
+div.__calendar__container__ form, 
+div.__calendar__container__ i,
+div.__calendar__container__ label,
+div.__calendar__container__ li,
+div.__calendar__container__ p,
+div.__calendar__container__ span,
+div.__calendar__container__ table,
+div.__calendar__container__ tbody,
+div.__calendar__container__ td,
+div.__calendar__container__ tfoot,
+div.__calendar__container__ th,
+div.__calendar__container__ thead,
+div.__calendar__container__ tr,
+div.__calendar__container__ ul {
+  border:0;font-size:100%;font:inherit;margin:0;padding:0;vertical-align:baseline
+}
+
+div.__calendar__container__ {line-height:1}
+div.__calendar__container__ ul {list-style: none;}
+div.__calendar__container__ table {border-collapse:collapse;border-spacing:0}
+
+/* =============================
 CONTAINER
 ============================= */
 .__calendar__container__ {
@@ -16,7 +46,13 @@ HEADER
 }
 
 .__calendar__container__ .__calendar__container__header__ div {
-  margin:auto 0;
+  /* margin:auto 0; */
+}
+
+.__calendar__container__ .__calendar__container__header__ .__calendar__arrow__container__ {
+  display: flex;
+  justify-content: space-between;
+  width:50px;
 }
 
 .__calendar__arrow__prev__,
@@ -27,6 +63,7 @@ HEADER
   text-align: center;
   font-size: 2.0em;
   cursor: pointer;
+  height:100%;
 }
 
 .__calendar__arrow__next__ {
@@ -157,7 +194,7 @@ BODY - TYPE: calendar
   display: inline-block;
   width: 30px;
   height: 30px;
-  line-height: 30px;
+  line-height: 32px;
   text-align: center;
   border-radius: 50%;
 }
@@ -296,7 +333,7 @@ BODY - TYPE: info
   border-top:0px;
   padding-top:20px;
   padding-bottom:20px;
-  height:calc(100% - 2.0rem - 100px);
+  height:calc(100% - 2.0rem - 80px);
   text-align: left;
 }
 
@@ -346,11 +383,11 @@ BODY - TYPE: info
 
 .__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ i::before,
 .__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ i::after,
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .contents  {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .__contents__  {
   transition: all 0.25s ease-in-out;
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .contents  {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .__contents__  {
   position: relative;
   overflow: hidden;
   max-height: 100%;
@@ -367,7 +404,7 @@ BODY - TYPE: info
   opacity: 0;
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .title {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .__title__ {
   font-size: 18px;
   line-height: 34px;
   letter-spacing: 1px;
@@ -376,7 +413,7 @@ BODY - TYPE: info
   cursor: pointer;
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ input[type=checkbox]:checked ~ .contents {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ input[type=checkbox]:checked ~ .__contents__ {
   margin-top: 0;
   max-height: 0;
   opacity: 0;
@@ -391,7 +428,7 @@ BODY - TYPE: info
   transform: translate(-2px, 0) rotate(-45deg);
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .title::before {
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .__title__::before {
   content: '';
   border-right-width: 22px;
   border-right-style: solid;
