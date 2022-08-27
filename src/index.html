@@ -19,21 +19,26 @@
       <div class="__calendar__container__">
         <div class="__calendar__container__header__">
           <div class="__calendar__button__area__">
-            <button type="button">TODAY</button>
+            <!-- <button type="button">TODAY</button> -->
+            <!-- 햄버거 메뉴 -->
+            <input type="checkbox" id="trigger" >
+            <label for="trigger">
+                <!-- 햄버거 세줄 표현 -->
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <div class="sidebar">
+              <button type="button">TODAY</button>
+              <button type="button">ADD</button>
+              <button type="button">UPDATE</button>
+            </div>
           </div>
           <div class="__calendar__select__date__">
             <span class="__current__select__year__">2022</span>
             <span>.</span>
             <span class="__current__select__month__">08</span>
           </div>
-          <!-- <div>
-            <div class="__calendar__arrow__prev__">
-              &lt;
-            </div>
-            <div class="__calendar__arrow__next__">
-              &gt;
-            </div>
-          </div> -->
           <div class="__calendar__arrow__container__">
             <div class="__calendar__arrow__prev__">
               <i></i>
@@ -45,7 +50,7 @@
         </div>
         <div class="__calendar__container__body__">
 
-          <div class="__calendar__contents__ __type_calendar__">
+          <div class="__calendar__contents__ __type_calendar__ __is_active__ ">
             <div class="__calendar__contents__header__">
               <div class="__header__day_of_week__">일</div>
               <div class="__header__day_of_week__">월</div>
@@ -316,12 +321,118 @@
     (function () {
 
       const options = {
+
+        /**
+         * 이벤트 목록 api 관련된 프로퍼티 - javascript fetch api 사용
+         * method: method 정의 (default: get)
+         * mode : 'no-cors', 'cors' (*default), 'same-origin'
+         * credentials: include, same-origin (*default), omit
+         * url: 호출할 URL ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: ''>
+         * headerOptions: 호출할 때 사용하는 header option ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: 'Content-Type': 'application/json'>
+         * data: request body data ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: 'Content-Type': 'application/json'>
+         */
+        getsFetchInfo: {
+          method: 'get',
+          mode: 'cors',
+          credentials: 'same-origin',
+          url: 'http://localhost:3000/hello?test=1',
+          headers: {
+            'Content-Type': 'application/json' // application/x-www-form-urlencoded
+          },
+          body: {},
+          // successCallbackResponseHandle: function (response) {
+          //   console.log(response);
+          // },
+          failureCallbackResponseHandle: function (error) {
+            console.log('failure callback');
+            console.log(error);
+          },
+          successCatchResponseHandle: function () {
+            console.log('success catch!!');
+          },
+          failureCatchResponseHandle: function () {
+            console.log('failure catch');
+          },
+        },
+
+        /**
+         * 이벤트 생성 api 관련된 프로퍼티 - javascript fetch api 사용
+         * isFetchEnable: api를 사용할 것인지   <기본값: false>
+         * isHandleResponse: api 를 통해 받아온 데이터를 직접 핸들링할 것인지 <기본값: false>
+         * url: 호출할 URL ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: ''>
+         * headerOptions: 호출할 때 사용하는 header option ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: 'Content-Type': 'application/json'>
+         * data: request body data ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: 'Content-Type': 'application/json'>
+         */
+        getFetchInfo: {
+          // isFetchEnable: false,
+          // isHandleResponse: false,
+          url: '',
+          headerOptions: {
+            'Authorization': 'YOUT_ACCESS_TOKEN', // options
+            'Content-Type': 'application/json' // application/x-www-form-urlencoded
+          },
+          data: {},
+          successCallbackResponseHandle: function (response) {
+
+          },
+          failureCallbackResponseHandle: function (error) {
+
+          },
+        },
+
+        /**
+         * 이벤트 생성 api 관련된 프로퍼티 - javascript fetch api 사용
+         * isFetchEnable: api를 사용할 것인지   <기본값: false>
+         * isHandleResponse: api 를 통해 받아온 데이터를 직접 핸들링할 것인지 <기본값: false>
+         * url: 호출할 URL ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: ''>
+         * headerOptions: 호출할 때 사용하는 header option ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: 'Content-Type': 'application/json'>
+         * data: request body data ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: 'Content-Type': 'application/json'>
+         */
+        postFetchInfo: {
+          isFetchEnable: false,
+          isHandleResponse: false,
+          url: '',
+          headerOptions: {
+            'Authorization': 'YOUT_ACCESS_TOKEN', // options
+            'Content-Type': 'application/json' // application/x-www-form-urlencoded
+          },
+          data: {},
+          successCallbackResponseHandle: function (response) {
+
+          },
+          failureCallbackResponseHandle: function (error) {
+
+          },
+        },
+
         /**
          * 일 선택 시 이벤트 콜백
+         * data :{
+         *  date: 선택한 날짜
+         *  eventList: 해당 날짜의 속해있는 이벤트 list
+         * }
          */
-        // callbackOnClickSelectDay: function (data) {
-        //   console.log(data);
-        // },
+        callbackOnClickSelectDate: function (data) {
+          console.log(data);
+        },
+
+        /**
+         * 이전 달 화살표 클릭시 이벤트 캐치
+         */
+        catchOnClickMovePrevMonth: function () {
+          console.log(myCalendar);
+        },
+
+        /**
+         * 다음 달 화살표 클릭시 이벤트 캐치
+         */
+        catchOnClickMoveNextMonth: function () {
+          console.log(myCalendar);
+        },
+
+        /**
+         * 
+         */
       };
 
       const myCalendar = new CALENDAR('my-calendar', options);
@@ -413,7 +524,7 @@
           title: _titleValue,
           start: _startValue,
           end: _endValue,
-          contents: _contentsValue, 
+          contents: _contentsValue,
         };
 
         myCalendar.addEvent(event);

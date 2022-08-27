@@ -27,9 +27,9 @@
 
   String.prototype.toDate = function () {
     if (this.length === 8) {
-      var sYear = this.substring(0,4);
-      var sMonth = this.substring(4,6);
-      var sDate = this.substring(6,8);
+      let sYear = this.substring(0,4);
+      let sMonth = this.substring(4,6);
+      let sDate = this.substring(6,8);
 
       return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
     } else {
@@ -85,13 +85,16 @@
   const CLS_SELECT_INFO_EVENT_CONTENTS = '__contents__';
 
   // 이벤트 클릭 시 핸들링 할 수 있는 콜백함수명들
-  const EVENT_SELECT_DAY_CLICK = 'callbackOnClickSelectDay';
+  const CALLBACK_EVENT_SELECT_DATE_CLICK = 'callbackOnClickSelectDate';
+  const CATCH_MOVE_PREV_MONTH_CLICK = 'catchOnClickMovePrevMonth';
+  const CATCH_MOVE_NEXT_MONTH_CLICK = 'catchOnClickMoveNextMonth';
+
 
   // 캘린더 기본 높이값
   const CALENDAR_DEFAULT_ELEMENT_HEIGHT_VALUE = 752;
 
   // global event 목록
-  let g_events = [];
+  let GLOBAL_EVENTS_STATES = [];
 
   const CALENDAR = function(rootId, options) {
 
@@ -141,7 +144,7 @@
       arr.push(arguments[0]);
     }
 
-    eventArrPushAndSort(this, arr);
+    eventArrPushAndSort(this, arr, GLOBAL_EVENTS_STATES);
   };
 
   // 초기화 함수
@@ -150,15 +153,19 @@
 
     _context_.root = getRootNode(rootId);
 
-    if (isNotDrawableYn(_context_)) {
+    if (isNotDrawable(_context_)) {
       console.error(' element id is not found ');
       return false;
     }
 
-    // 이벤트 지정
+    // 브라우저 이벤트 지정
     setNodeEvent(_context_);
+
     // 달력그리기
     drawCalendar(_context_);
+
+    // 값 바인딩
+    drawBindingData(_context_);
   };
 
   // 달력 루트노드 get
@@ -167,7 +174,7 @@
   };
 
   // 달력을 그릴 수 있는 조건인지?
-  const isNotDrawableYn = function (_context_) {
+  const isNotDrawable = function (_context_) {
     _context_ = _context_ || new CALENDAR();
     return !_context_.root;
   };
@@ -175,7 +182,7 @@
   // 달력 그리기
   const drawCalendar = function (_context_) {
 
-    if (isNotDrawableYn(_context_)) {
+    if (isNotDrawable(_context_)) {
       console.error(' element id is not found ');
       return false;
     }
@@ -190,14 +197,12 @@
     nodeString += '</div>';
 
     $root.innerHTML = nodeString;
-
-    // 값 바인딩
-    drawBindingData(_context_);
   };
 
   // 헤더 그리기
   const drawCalendarHeader = function () {
 
+    // TODO: CLS_CAL_TODAY_BTN_AREA 버튼 name 으로 변경하기
     let nodeString = '<div class="' + CLS_CAL_CONTAINER_HEADER + '">';
     nodeString += '<div class="' + CLS_CAL_TODAY_BTN_AREA + '"><button type="button" name="' + CLS_CAL_TODAY_BTN_AREA + '">TODAY</button></div>';
     nodeString += '<div class="' + CLS_CAL_SELECT_DATE + '">';
@@ -294,7 +299,7 @@
     }
   };
 
-  // 이전 달 계산 -> 계산 후 캘린더 바디의 바디를 다시그려야함.
+  // 이전 달 계산
   const calPrevMonth = function (_context_) {
     const currentSelectDate = _context_.currentMonthInfo.date;
 
@@ -305,6 +310,7 @@
     _context_.currentMonthInfo.month = prevMonth.getMonth() + 1;
 
     drawBindingData(_context_);
+    catchFunctionHandler(_context_, CATCH_MOVE_PREV_MONTH_CLICK);
   };
 
   // 다음 달 계산
@@ -318,6 +324,7 @@
     _context_.currentMonthInfo.month = nextMonth.getMonth() + 1;
 
     drawBindingData(_context_);
+    catchFunctionHandler(_context_, CATCH_MOVE_NEXT_MONTH_CLICK);
   };
 
   // 오늘날로 점프
@@ -334,7 +341,7 @@
   };
 
   // 선택한 날 클릭 이벤트
-  const selectDayClickEvent = function (_context_, target) {
+  const selectDayClickEvent = function (_context_, target, currentEventList) {
 
     // TODO: 나중에 public api 로 뽑을 때 공통 함수로 작업해야함. 인자를 date로 변환가능한 string으로 받고.. getFormatDate 함수로 date를 변환 받고 작업해야할 것 같음..
 
@@ -352,22 +359,22 @@
     if ($eventContainerItemsCount) {
       for (let i = 0; i < $eventContainerItemsCount; i++) {
         const $eventContainerItem = $evnetContainerItems[i];
-        g_events = g_events || [];
-        const targetEvent = g_events.filter(function (event) {
+        currentEventList = currentEventList || [];
+        const targetEvent = currentEventList.filter(function (event) {
           return event && event.id && $eventContainerItem && $eventContainerItem.dataset && event.id === $eventContainerItem.dataset.id;
         })[0];
 
         targetEventList.push(targetEvent);
       }
     }
-
+    // TODO: 리팩토링
     // 사용자가 설정한 옵션에 해당 이벤트 키값이 있으면 그 함수로 호출
-    if (_context_ && _context_.options && _context_.options[EVENT_SELECT_DAY_CLICK]) {
+    if (_context_ && _context_.options && _context_.options[CALLBACK_EVENT_SELECT_DATE_CLICK]) {
 
-      const callbackFunc = _context_.options[EVENT_SELECT_DAY_CLICK];
+      const callbackFunc = _context_.options[CALLBACK_EVENT_SELECT_DATE_CLICK];
 
       if (!(callbackFunc instanceof Function)) {
-        console.error(' ' + EVENT_SELECT_DAY_CLICK + ' is callback function. please checking parameters ');
+        console.error(' ' + CALLBACK_EVENT_SELECT_DATE_CLICK + ' is callback function. please checking parameters ');
         return false;
       }
 
@@ -396,7 +403,7 @@
 
       bindSelectDay(_context_, targetDateOfDayId); // 선택한 일 정보 바인딩
       resetSelectDayEvent(_context_); // 이벤트 목록 class 초기화
-      bindSelectDayEventList(_context_, targetEventList);  // TODO: 선택한 날짜 이벤트 목록 바인딩.
+      bindSelectDayEventList(_context_, targetEventList);
 
       // info 타입만 활성화 시키기
       showCalContentsBodyOfType(_context_, CLS_CAL_BODY_TYPE_INFO);
@@ -410,17 +417,18 @@
 
   // 공통 그리기 TODO: 최적화..
   const drawBindingData = function (_context_) {
-    // 값 바인딩
-
-    // 이벤트 초기화
-    resetEvent(_context_);
 
     // 달력 그린 후
     bindSelectDate(_context_); // 선택한 날짜 년월 바인딩
     bindCalendarDays(_context_); // 선택한 날짜 일 그리기 바인딩
 
-    // 이벤트 그리기
-    drawEvent(_context_);
+    // global event list 가져오기
+    getGlobalEvents(_context_, function (globalEvent) {
+      // TODO: data 타입 체크하기.. (event push가 가능한 타입인지.) - 검증
+      // TODO: 이렇게 했을 때 데이터를 가져오고 따로 addEvent를 통해서 push 한 데이터는 어떻게 해야할지 생각..
+      // 이벤트 그리기
+      drawEvent(_context_, globalEvent);
+    });
   };
 
   // 선택한 날짜 년월 바인딩
@@ -512,9 +520,9 @@
       if ($infoTypeContentsHeader) {
         const $selectDayDiv = $infoTypeContentsHeader.querySelector('[name="' + CLS_SELECT_INFO_DAY + '"]');
         if ($selectDayDiv) {
-          const selectYear = selectedDate && selectedDate instanceof Date ? selectedDate.getFullYear() : new Date().getFullYear();
-          const selectMonth = selectedDate && selectedDate instanceof Date ? selectedDate.getMonth() + 1 : new Date().getMonth() + 1;
-          const selectDay = selectedDate && selectedDate instanceof Date ? selectedDate.getDate() : new Date().getDate();
+          const selectYear = isDate(selectedDate) ? selectedDate.getFullYear() : new Date().getFullYear();
+          const selectMonth = isDate(selectedDate) ? selectedDate.getMonth() + 1 : new Date().getMonth() + 1;
+          const selectDay = isDate(selectedDate) ? selectedDate.getDate() : new Date().getDate();
 
           $selectDayDiv.innerText = selectYear + '. ' + zp(selectMonth, 2) + '. ' + zp(selectDay, 2);
         }
@@ -557,8 +565,10 @@
 
       if ($infoTypeContentsBody) {
         if (Array.isArray(eventList) && eventList.length > 0) {
-          const infoTypeContentsBodyEventUlContainerHtml = '<ul class="' +  CLS_SELECT_INFO_EVENT_CONTAINER + '"></ul>';
-          $infoTypeContentsBody.innerHTML = infoTypeContentsBodyEventUlContainerHtml;
+          // const infoTypeContentsBodyEventUlContainerHtml = '<ul class="' +  CLS_SELECT_INFO_EVENT_CONTAINER + '"></ul>';
+          const infoTypeContentsBodyEventUlContainer = document.createElement('ul');
+          infoTypeContentsBodyEventUlContainer.classList.add(CLS_SELECT_INFO_EVENT_CONTAINER);
+          $infoTypeContentsBody.innerHTML = infoTypeContentsBodyEventUlContainer;
 
           const $infoTypeContentsBodyEventContainer = $infoTypeContentsBody.querySelector('.' + CLS_SELECT_INFO_EVENT_CONTAINER);
 
@@ -740,44 +750,39 @@
   };
 
   // 이벤트 목록 넣고 정렬
-  const eventArrPushAndSort = function (_context_, inputArr) {
-    g_events = g_events.concat(inputArr);
-    if (Array.isArray(g_events)) {
+  const eventArrPushAndSort = function (_context_, inputArr, currentGlobalEventList) {
+    currentGlobalEventList = currentGlobalEventList.concat(inputArr);
+    if (Array.isArray(currentGlobalEventList)) {
       
-      const eventArrSize = g_events.length;
+      const eventArrSize = currentGlobalEventList.length;
 
       // 데이터 포맷 작업
       for (let i=0; i < eventArrSize ; i++) {
-        let _event = g_events[i];
+        let _event = currentGlobalEventList[i];
 
         _event.diffDays = _event.diffDays || 0;
         _event.id = _event.id || uuidv4();  // id 값이 있으면 id 값을 사용. 없으면 uuid로 대체
 
-        if (_event.start) {
-          _event.startDate = getFormatDate(_event.start);
-          _event.startDateId = _event.startDate && _event.startDate instanceof Date ? _event.startDate.YYYYMMDD() : _event.startDate;
-        }
+        _event.startDate = getFormatDate(_event.start);
+        _event.endDate = getFormatDate(_event.end);
 
-        if (_event.end) {
-          _event.endDate = getFormatDate(_event.end);
-          _event.endDateId = _event.endDate && _event.endDate instanceof Date ? _event.endDate.YYYYMMDD() : _event.endDate;
-        }
+        _event.startDateId = isDate(_event.startDate) ? _event.startDate.YYYYMMDD() : _event.startDate;
+        _event.endDateId = isDate(_event.endDate) ? _event.endDate.YYYYMMDD() : _event.endDate;
 
-        if (_event.startDate && _event.startDate instanceof Date && _event.endDate && _event.endDate instanceof Date) {
+        if (isDate(_event.startDate) && isDate(_event.endDate)) {
           const diff = _event.endDate.getTime() - _event.startDate.getTime();
           _event.diffDays = Math.ceil(diff / (1000 * 3600 * 24));
         }
       }
 
-      // 데이터 정렬
-      g_events = g_events.sort(function (a, b) {
+      // 데이터 정렬 -  start 오름차순
+      currentGlobalEventList = currentGlobalEventList.sort(function (a, b) {
         return a.startDate - b.startDate;
-      }).filter(function (_event) {
+      }).filter(function (_event) { // startDate와 endDate가 있는 것만 사용
         return _event.startDate && _event.endDate;
       });
 
-      console.log(g_events);
-      drawEvent(_context_);
+      drawEvent(_context_, currentGlobalEventList); // 이벤트 넣고 정렬 후 바인딩
     }
   };
 
@@ -795,9 +800,9 @@
   // 2022-09-01
   const STR_DATE_FORMAT_DATE_HYPHEN_REG = /^[0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}$/;
 
-  // 2022-09-01 18:00:00
+  // 2022.09.01 18:00:00
   const STR_DATE_FORMAT_DATETIME_DOT_REG = /^[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2}\s[0-9]{1,2}\:[0-9]{1,2}\:[0-9]{1,2}$/;
-  // 2022-09-01
+  // 2022.09.01
   const STR_DATE_FORMAT_DATE_DOT_REG = /^[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2}$/;
 
   // 20220901180000
@@ -818,11 +823,15 @@
     }
 
     let date = new Date(value);
-    return !isNaN(date) && date instanceof Date ? date : null;
+    return isDate(date) ? date : null;
   };
 
   // 이벤트 그리기
-  const drawEvent = function (_context_) {
+  const drawEvent = function (_context_, eventList) {
+    console.log("####### =============");
+    console.log(eventList);
+    console.log("####### =============");
+
     const $root = _context_.root;
 
     if ($root) {
@@ -833,13 +842,12 @@
 
       if ($calendarBody) {
 
-        let eventListSize = g_events.length;
+        let eventListSize = eventList.length;
 
         for (let i = 0; i < eventListSize; i++) {
 
-          const eventInfo = g_events[i];
+          const eventInfo = eventList[i];
 
-          // TODO: 방어로직 작성
           let startDate = new Date(eventInfo.startDate.getTime()); // startDate 의 deepCopy
           let endDate = new Date(eventInfo.endDate.getTime()); // endDate 의 deepCopy
           
@@ -854,20 +862,20 @@
 
             if ($target) {
               const $eventContainer = $target.querySelector('.' + CLS_CAL_BODY_BODY_DAY_EVENTS);
-              const $eventContainerItemsCount = $eventContainer.getElementsByTagName('div').length;
+              const $eventContainerItemsList = $eventContainer.getElementsByTagName('div');
   
-              let bankUpCount = $eventContainerItemsCount + 1;
+              let buildCount = $eventContainerItemsList.length + 1;
   
               // 시작일의 value index 는 2이고 쌓인건 1일 때..
-              if (startEventIndex > bankUpCount) {
+              if (startEventIndex > buildCount) {
   
-                // 차이만큼 생성해주어야 한다.
-                for (let z = 0; z < startEventIndex - bankUpCount; z++) {
+                // 차이만큼 비어있는 div를 생성해주어야 한다.
+                for (let z = 0; z < startEventIndex - buildCount; z++) {
                   // 비어있는 이벤트 block 생성
                   const eventEmptyBlock = document.createElement('div');
-                  // TODO: 가독성을 위해 classList로 작업해보는게 어떨까?
-                  eventEmptyBlock.className += ' value' + (z+1) + ' ';
-                  eventEmptyBlock.className += ' empty ';
+                
+                  eventEmptyBlock.classList.add('value' + (z+1));
+                  eventEmptyBlock.classList.add('empty');
   
                   // 비어있는 title span 생성
                   const eventEmptyTitle = document.createElement('span');
@@ -875,31 +883,31 @@
                   $eventContainer.appendChild(eventEmptyBlock); // 비어 있는 event block 먼저 붙히기
                 }
   
-                bankUpCount = startEventIndex;
+                buildCount = startEventIndex;
               }
   
               // 이벤트 div 생성
               const eventBlock = document.createElement('div');
-              eventBlock.className += ' value' + bankUpCount + ' '; // 시작일 이 해당 일에 몇번째 이벤트인지 인덱싱
+            
+              eventBlock.classList.add('value' + buildCount); // 시작일 이 해당 일에 몇번째 이벤트인지 인덱싱
               eventBlock.dataset.id = eventInfo.id || uuidv4();
   
               // 하루짜리면..
               if (eventInfo.diffDays < 1) {
-                eventBlock.className += ' single ';
+                eventBlock.classList.add('single');
               } else {
   
                 // 이벤트 시작일 체크
                 if (startEndCheckIndex === 0) {
-  
-                  startEventIndex = bankUpCount;  // 시작일의 event count 체크
-                  eventBlock.className += ' start ';
+                  startEventIndex = buildCount;  // 시작일의 event count 체크
+                  eventBlock.classList.add('start');
                 } 
                 // 마지막일 체크
                 if (startEndCheckIndex === eventInfo.diffDays) {
-                  eventBlock.className += ' end ';
+                  eventBlock.classList.add('end');
                 }
   
-                eventBlock.className += ' full ';
+                eventBlock.classList.add('full');
               }
         
               // 이벤트 div에 title 붙힐 span 생성
@@ -919,7 +927,7 @@
 
         }
       }
-    }    
+    }
   };
 
   // 전체 달력에 이벤트 목록 초기화
@@ -987,13 +995,222 @@
     return result;
   };
 
+  // 이벤트 캐치 핸들러
+  const catchFunctionHandler = function (_context_, catchFunctionName) {
+    const _catchFunc = getsOptionProperty(_context_, catchFunctionName);  
+    if (!isFunction(_catchFunc)) {
+      console.error(' ' + catchFunctionName + ' is catch function. please checking options parameters ');
+      return false;
+    }
+    _catchFunc();
+  };
+
   // uuid generates
   const uuidv4 = function () {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
-  }
+  };
+
+  /**
+   * global event list 가져오기
+   * get fetch info check
+   */
+  const getGlobalEvents = function (_context_, fetchSuccessCallback) {
+    const _getsFetchInfo = getsOptionProperty(_context_, 'getsFetchInfo');
+    if (!isFetchInfoEnabled(_getsFetchInfo)) {
+      return fetchSuccessCallback(GLOBAL_EVENTS_STATES);
+    }
+
+    fetchWrapper(_getsFetchInfo, function (data) {
+
+      const _successCallbackResponseHandle = _getsFetchInfo.successCallbackResponseHandle;
+      const _successCatchResponseHandle = _getsFetchInfo.successCatchResponseHandle;
+      
+      if (!isFunction(_successCallbackResponseHandle)) {
+        fetchSuccessCallback(data);
+      }
+
+      if (isFunction(_successCallbackResponseHandle)) {
+        _successCallbackResponseHandle(data);
+      }
+
+      if (isFunction(_successCatchResponseHandle)) {
+        _successCatchResponseHandle();
+      }
+    });
+  };
+
+  /**
+   * option에서 프로퍼티명에 해당하는 값을 가져온다.
+   */
+  const getsOptionProperty = function (_context_, propertyName) {
+    const _options = _context_.options;
+    
+    if (!isObject(_options)) {
+      return null;
+    }
+
+    if (!_options.hasOwnProperty(propertyName)) {
+      return null;
+    }
+
+    return _options[propertyName];
+  };
+
+  /**
+   * fetch default header
+   */
+  const getDefaultFetchHeaderObject = function () {
+    return {
+      'Content-Type': 'application/json'
+    };
+  };
+
+  /**
+   * fetch request
+   */
+  const getCustomFetchRequest = function (url, method, mode, credentials, headers, body) {
+    if (typeof method !== 'string') {
+      method = 'get';
+    }
+
+    const $request = new Request(url, {
+      method: method,
+      mode: mode,
+      credentials: credentials,
+      headers: headers,
+    }); 
+
+    const _method = method.toLowerCase();
+
+    // get과 head가 아닌 경우에는 body property 추가
+    if (' get head '.indexOf(_method) < 0) {
+      $request.body = body;
+    }
+
+    return $request;
+  };
+
+  /**
+   * fetch callback
+   * @param {*} parameter 
+   * @param {*} successCallback 
+   */
+  const fetchWrapper = function (parameter, successCallback) {
+    
+    parameter = parameter || {};
+    successCallback = successCallback || (function() {});
+
+    const method = parameter.method || 'get';
+    const url = parameter.url;
+    const mode = parameter.mode || 'cors';
+    const credentials = parameter.credentials || 'same-origin';
+    const headers = parameter.headers || getDefaultFetchHeaderObject();
+    const body = parameter.body || {};
+
+    const _failureCallbackResponseHandle = parameter.failureCallbackResponseHandle;
+    const _failureCatchResponseHandle = parameter.failureCatchResponseHandle;
+
+    try {
+      const $fetch = getCustomFetchRequest(url, method, mode, credentials, headers, body);
+
+      fetch($fetch)
+      .then(function (response) {
+        response = response || {};
+        if (!response.ok) {
+          // 실패한 응답이 올 경우 catch로 throw 
+          throw ' happened error status is ' + response.status + ', cause is ' + response.statusText;
+        } else {
+          if (isFetchContentTypeText(response.headers)) {
+            // content type이 text일 때에는 text 처리
+            return response.text();
+          } else {
+            // 아닐 때에는 전부 json으로 간주
+            return response.json();
+          }
+        }
+      })
+      .then(function (data) {
+        successCallback(data);
+      })
+      .catch (function (err) {
+        // fetch 응답이 실패했을 경우 (400, 500 등..)
+        handleFetchError(err, _failureCallbackResponseHandle, _failureCatchResponseHandle);
+      });
+    } catch (err) {
+      // fetch를 보내는 과정에서 error가 발행한 경우
+      handleFetchError(err, _failureCallbackResponseHandle, _failureCatchResponseHandle);
+    }
+  };
+
+  /**
+   * fetch error 다루기..
+   * @param {*} err 
+   * @param {*} callbackFunc 
+   * @param {*} catchFunc 
+   */
+  const handleFetchError = function (err, callbackFunc, catchFunc) {
+    if (!isFunction(callbackFunc) && !isFunction(catchFunc)) {
+      console.error(err);
+    }
+
+    if (isFunction(callbackFunc)) {
+      callbackFunc(err);
+    }
+
+    if (isFunction(catchFunc)) {
+      console.error(err);
+      catchFunc();
+    }
+  };
+
+
+  /**
+   * func가 함수인지 확인.
+   */
+  const isFunction = function (func) {
+    return func && func instanceof Function;
+  };
+
+  /**
+   * 객체인지 확인
+   */
+  const isObject = function (value) {
+    return value && typeof value === 'object' && !Array.isArray(value);
+  };
+
+  /**
+   * content type이 text/html인지 확인
+   */
+  const isFetchContentTypeText = function (header) {        
+    let result = false;
+
+    if (header.has('content-type')) {
+      headerContentsType = header.get('content-type');
+      if (" text/html ".indexOf(headerContentsType) > -1) {
+        result = true;
+      }
+    }
+
+    return result;
+  };
+
+  /**
+   * 컨텍스트가 options 프로퍼티를 가지고 있는지 확인.
+   */
+   const isFetchInfoEnabled = function (fetchInfo) {
+    return isObject(fetchInfo) &&
+           !!fetchInfo.url;
+  };
+
+  /**
+   * Date 타입인지 확인.
+   */
+  const isDate = function (value) {
+    return value && !isNaN(value) && value instanceof Date
+  };
 
   window.CALENDAR = CALENDAR;
 
