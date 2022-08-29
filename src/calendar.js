@@ -81,7 +81,6 @@
   const CATCH_MOVE_PREV_MONTH_CLICK = 'catchOnClickMovePrevMonth';
   const CATCH_MOVE_NEXT_MONTH_CLICK = 'catchOnClickMoveNextMonth';
 
-
   // 캘린더 기본 높이값
   const CALENDAR_DEFAULT_ELEMENT_HEIGHT_VALUE = 752;
 
@@ -136,7 +135,7 @@
       arr.push(arguments[0]);
     }
 
-    eventArrPushAndSort(this, arr, GLOBAL_EVENTS_STATES);
+    eventArrPushAndSort(this, arr);
   };
 
   // 초기화 함수
@@ -178,83 +177,170 @@
 
     $nodeUnMount($root);
 
-    let nodeString = '<div class="' + CLS_CAL_CONTAINER + '">';
-    nodeString += getCalendarHeaderNodeString();
-    nodeString += getCalendarBodyNodeString();
-    nodeString += '</div>';
+    let nodeString = hns('div', { class: CLS_CAL_CONTAINER},
+      [
+        getCalendarHeaderNodeString(),
+        getCalendarBodyNodeString()
+      ]
+    );
 
     $nodeMount($root, nodeString);
   };
 
   // 헤더 그리기
+  // const getCalendarHeaderNodeString = function () {
+
+  //   // // TODO: CLS_CAL_TODAY_BTN_AREA 버튼 name 으로 변경하기
+  //   let nodeString = '<div class="' + CLS_CAL_CONTAINER_HEADER + '">';
+  //   nodeString += '<div class="' + CLS_CAL_TODAY_BTN_AREA + '"><button type="button" name="' + CLS_CAL_TODAY_BTN_AREA + '">TODAY</button></div>';
+  //   nodeString += '<div class="' + CLS_CAL_SELECT_DATE + '">';
+  //   nodeString += '<span class="' + CLS_CURRNET_DATE_YEAR + '" name="' + CLS_CURRNET_DATE_YEAR + '">' + 0 + '</span>';
+  //   nodeString += '<span> . </span>';
+  //   nodeString += '<span class="' + CLS_CURRNET_DATE_MONTH + '" name="' + CLS_CURRNET_DATE_MONTH + '">' + 0 + '</span>';
+  //   nodeString += '</div>';
+  //   nodeString += '<div class="' + CLS_CAL_ARROW_CONTAINER + '">';
+  //   nodeString += '<div class="' + CLS_CAL_ARROW_PREV + '" name="' + CLS_CAL_ARROW_PREV + '"><i name="' + CLS_CAL_ARROW_PREV + '"></i></div>';
+  //   nodeString += '<div class="' + CLS_CAL_ARROW_NEXT + '" name="' + CLS_CAL_ARROW_NEXT + '"><i name="' + CLS_CAL_ARROW_NEXT + '"></i></div>';
+  //   nodeString += '</div>';
+  //   nodeString += '</div>';
+
+  //   return nodeString;
+  // };
+
+  // 헤더 그리기
   const getCalendarHeaderNodeString = function () {
-
-    // TODO: CLS_CAL_TODAY_BTN_AREA 버튼 name 으로 변경하기
-    let nodeString = '<div class="' + CLS_CAL_CONTAINER_HEADER + '">';
-    nodeString += '<div class="' + CLS_CAL_TODAY_BTN_AREA + '"><button type="button" name="' + CLS_CAL_TODAY_BTN_AREA + '">TODAY</button></div>';
-    nodeString += '<div class="' + CLS_CAL_SELECT_DATE + '">';
-    nodeString += '<span class="' + CLS_CURRNET_DATE_YEAR + '" name="' + CLS_CURRNET_DATE_YEAR + '">' + 0 + '</span>';
-    nodeString += '<span> . </span>';
-    nodeString += '<span class="' + CLS_CURRNET_DATE_MONTH + '" name="' + CLS_CURRNET_DATE_MONTH + '">' + 0 + '</span>';
-    nodeString += '</div>';
-    nodeString += '<div class="' + CLS_CAL_ARROW_CONTAINER + '">';
-    nodeString += '<div class="' + CLS_CAL_ARROW_PREV + '" name="' + CLS_CAL_ARROW_PREV + '"><i name="' + CLS_CAL_ARROW_PREV + '"></i></div>';
-    nodeString += '<div class="' + CLS_CAL_ARROW_NEXT + '" name="' + CLS_CAL_ARROW_NEXT + '"><i name="' + CLS_CAL_ARROW_NEXT + '"></i></div>';
-    nodeString += '</div>';
-    nodeString += '</div>';
-
-    return nodeString;
+    return hns('div', { class: CLS_CAL_CONTAINER_HEADER }, 
+      [
+        hns('div', { class: CLS_CAL_TODAY_BTN_AREA },
+          [
+            hns('button', { type: 'button', name: CLS_CAL_TODAY_BTN_AREA }, 'TODAY')
+          ]
+        ),
+        hns('div', { class: CLS_CAL_SELECT_DATE },
+          [
+            hns('span', { class: CLS_CURRNET_DATE_YEAR, name:  CLS_CURRNET_DATE_YEAR }, 0),
+            hns('span', null, ' . '),
+            hns('span', { class: CLS_CURRNET_DATE_MONTH, name:  CLS_CURRNET_DATE_MONTH }, 0),
+          ]
+        ),
+        hns('div', { class: CLS_CAL_ARROW_CONTAINER }, 
+          [
+            hns('div', { class: CLS_CAL_ARROW_PREV, name: CLS_CAL_ARROW_PREV }, 
+              [
+                hns('i', { name: CLS_CAL_ARROW_PREV }, '')
+              ]
+            ),
+            hns('div', { class: CLS_CAL_ARROW_NEXT, name: CLS_CAL_ARROW_NEXT }, 
+              [
+                hns('i', { name: CLS_CAL_ARROW_NEXT }, '')
+              ]
+            ),
+          ]
+        )
+      ]
+    );
   };
 
   // 바디 그리기
+  // const getCalendarBodyNodeString = function () {
+
+  //   let nodeString = '<div class="' + CLS_CAL_CONTAINER_BODY + '">';
+  //   nodeString += getCalendarBodyTypeCalendarNodeString();
+  //   nodeString += getCalendarBodyTypeInfoNodeString();
+  //   nodeString += '</div>';
+
+  //   return nodeString;
+  // };
+
   const getCalendarBodyNodeString = function () {
-
-    let nodeString = '<div class="' + CLS_CAL_CONTAINER_BODY + '">';
-    nodeString += getCalendarBodyTypeCalendarNodeString();
-    nodeString += getCalendarBodyTypeInfoNodeString();
-    nodeString += '</div>';
-
-    return nodeString;
+    return hns('div', { class: CLS_CAL_CONTAINER_BODY }, 
+      [
+        getCalendarBodyTypeCalendarNodeString(),
+        getCalendarBodyTypeInfoNodeString()
+      ]
+    );
   };
 
   // 바디 - 타입이 캘린더 인거 그리기.
-  const getCalendarBodyTypeCalendarNodeString = function () {
-    let nodeString = '<div class="' + CLS_CAL_BODY_CONTENTS + ' ' + CLS_CAL_BODY_TYPE_CALENDAR + ' ' + CLS_IS_ACTIVE + '">';
-    nodeString += drawDayOfWeek();
-    nodeString += '<div class="' + CLS_CAL_BODY_CONTENTS__BODY + '" name="' + CLS_CAL_BODY_CONTENTS__BODY + '"></div>';
-    nodeString += '</div>';
+  // const getCalendarBodyTypeCalendarNodeString = function () {
+  //   let nodeString = '<div class="' + CLS_CAL_BODY_CONTENTS + ' ' + CLS_CAL_BODY_TYPE_CALENDAR + ' ' + CLS_IS_ACTIVE + '">';
+  //   nodeString += drawDayOfWeek();
+  //   nodeString += '<div class="' + CLS_CAL_BODY_CONTENTS__BODY + '" name="' + CLS_CAL_BODY_CONTENTS__BODY + '"></div>';
+  //   nodeString += '</div>';
 
-    return nodeString;
+  //   return nodeString;
+  // };
+
+  // 바디 - 타입이 캘린더 인거 그리기.
+  const getCalendarBodyTypeCalendarNodeString = function () {
+    return hns('div', { class: CLS_CAL_BODY_CONTENTS + ' ' + CLS_CAL_BODY_TYPE_CALENDAR + ' ' + CLS_IS_ACTIVE},
+      [
+        drawDayOfWeek(),
+        hns('div', { class: CLS_CAL_BODY_CONTENTS__BODY, name: CLS_CAL_BODY_CONTENTS__BODY }, '')
+      ]
+    );
   };
 
   // 바디 - 타입이 info 인거 그리기
+  // const getCalendarBodyTypeInfoNodeString = function () {
+
+  //   let nodeString = '<div class="' + CLS_CAL_BODY_CONTENTS + ' ' + CLS_CAL_BODY_TYPE_INFO + '">';
+  //   nodeString += '<div class="' + CLS_CAL_BODY_CONTENTS__HEADER + '">';
+  //   nodeString += '<div class="' + CLS_SELECT_INFO_DAY + '" name="' + CLS_SELECT_INFO_DAY + '"></div>';
+  //   nodeString += '<div class="' + CLS_SELECT_INFO_CLOSE_BTN + '" name="' + CLS_SELECT_INFO_CLOSE_BTN + '"></div>';
+  //   nodeString += '</div>';
+  //   nodeString += '<div class="' + CLS_CAL_BODY_CONTENTS__BODY + '">';
+  //   nodeString += '<div class="' + CLS_SELECT_INFO_EVENT_CONTAINER + '"><span>이벤트가 없습니다.</span></div>';
+  //   nodeString += '</div>';
+  //   nodeString += '</div>';
+
+  //   return nodeString;
+  // };
+
   const getCalendarBodyTypeInfoNodeString = function () {
-
-    let nodeString = '<div class="' + CLS_CAL_BODY_CONTENTS + ' ' + CLS_CAL_BODY_TYPE_INFO + '">';
-    nodeString += '<div class="' + CLS_CAL_BODY_CONTENTS__HEADER + '">';
-    nodeString += '<div class="' + CLS_SELECT_INFO_DAY + '" name="' + CLS_SELECT_INFO_DAY + '"></div>';
-    nodeString += '<div class="' + CLS_SELECT_INFO_CLOSE_BTN + '" name="' + CLS_SELECT_INFO_CLOSE_BTN + '"></div>';
-    nodeString += '</div>';
-    nodeString += '<div class="' + CLS_CAL_BODY_CONTENTS__BODY + '">';
-    nodeString += '<div class="' + CLS_SELECT_INFO_EVENT_CONTAINER + '"><span>이벤트가 없습니다.</span></div>';
-    nodeString += '</div>';
-    nodeString += '</div>';
-
-    return nodeString;
+    return hns('div', { class: CLS_CAL_BODY_CONTENTS + ' ' + CLS_CAL_BODY_TYPE_INFO }, 
+      [
+        hns('div', { class: CLS_CAL_BODY_CONTENTS__HEADER }, 
+          [
+            hns('div', { class: CLS_SELECT_INFO_DAY, name: CLS_SELECT_INFO_DAY }, ''),
+            hns('div', { class: CLS_SELECT_INFO_CLOSE_BTN, name: CLS_SELECT_INFO_CLOSE_BTN }, ''),
+          ]
+        ),
+        hns('div', { class: CLS_CAL_BODY_CONTENTS__BODY },
+          [
+            hns('div', { class: CLS_SELECT_INFO_EVENT_CONTAINER }, 
+              [
+                hns('span', null, '이벤트가 없습니다.')
+              ]
+            )
+          ]
+        )
+      ]
+    );
   };
 
   // 요일 그리기
+  // const drawDayOfWeek = function () {
+  //   let nodeString = '<div class="' + CLS_CAL_BODY_CONTENTS__HEADER + '">';
+  //   nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">일</div>';
+  //   nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">월</div>';
+  //   nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">화</div>';
+  //   nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">수</div>';
+  //   nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">목</div>';
+  //   nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">금</div>';
+  //   nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">토</div>';
+  //   nodeString += '</div>';
+  //   return nodeString;
+  // };
+
   const drawDayOfWeek = function () {
-    let nodeString = '<div class="' + CLS_CAL_BODY_CONTENTS__HEADER + '">';
-    nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">일</div>';
-    nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">월</div>';
-    nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">화</div>';
-    nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">수</div>';
-    nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">목</div>';
-    nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">금</div>';
-    nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">토</div>';
-    nodeString += '</div>';
-    return nodeString;
+    let dayOfWeekList = ['일', '월', '화', '수', '목', '금', '토'];
+
+    return hns('div', { class: CLS_CAL_BODY_CONTENTS__HEADER }, 
+      dayOfWeekList.map(function (day) {
+        return hns('div', { class: CLS_CAL_BODY_HEADER_WEEK }, day);
+      })
+    );
   };
 
   // root를 기반으로.. 동적 이벤트 등록
@@ -277,7 +363,7 @@
             jumpToToday(_context_);
             break;
           case CLS_CAL_BODY_BODY_DAY_BOX: // 일 클릭
-            selectDayClickEvent(_context_, e.target);
+            selectDayClickEvent(_context_, e.target, GLOBAL_EVENTS_STATES);
             break;
           case CLS_SELECT_INFO_CLOSE_BTN: // 캘린더 바디 타입이 info 일 때 close 버튼 클릭 이벤트
             changeCalContentsBodyOfCalendar(_context_);
@@ -331,6 +417,8 @@
   // 선택한 날 클릭 이벤트
   const selectDayClickEvent = function (_context_, target, currentEventList) {
 
+    console.log(currentEventList);
+
     // TODO: 나중에 public api 로 뽑을 때 공통 함수로 작업해야함. 인자를 date로 변환가능한 string으로 받고.. getFormatDate 함수로 date를 변환 받고 작업해야할 것 같음..
 
     const $targetDayId = target.getAttribute('id'); // d20220701
@@ -348,20 +436,24 @@
       for (let i = 0; i < $eventContainerItemsCount; i++) {
         const $eventContainerItem = $evnetContainerItems[i];
         currentEventList = currentEventList || [];
+
         const targetEvent = currentEventList.filter(function (event) {
-          return event && event.id && $eventContainerItem && $eventContainerItem.dataset && event.id === $eventContainerItem.dataset.id;
+          return event && event.id && 
+          $eventContainerItem && $eventContainerItem.dataset && 
+          event.id === $eventContainerItem.dataset.id;
         })[0];
 
         targetEventList.push(targetEvent);
       }
     }
+
     // TODO: 리팩토링
     // 사용자가 설정한 옵션에 해당 이벤트 키값이 있으면 그 함수로 호출
-    if (_context_ && _context_.options && _context_.options[CALLBACK_EVENT_SELECT_DATE_CLICK]) {
+    const callbackFunc = getsOptionProperty(_context_, CALLBACK_EVENT_SELECT_DATE_CLICK);
 
-      const callbackFunc = _context_.options[CALLBACK_EVENT_SELECT_DATE_CLICK];
+    if (callbackFunc) {
 
-      if (!(callbackFunc instanceof Function)) {
+      if (!isFunction(callbackFunc)) {
         console.error(' ' + CALLBACK_EVENT_SELECT_DATE_CLICK + ' is callback function. please checking parameters ');
         return false;
       }
@@ -388,7 +480,7 @@
       if (infoTypeContents && infoTypeContents.style) {
         infoTypeContents.style.height = calendarTypeContentsHeight + 'px';
       }
-
+      
       bindSelectDay(_context_, targetDateOfDayId); // 선택한 일 정보 바인딩
       resetSelectDayEvent(_context_); // 이벤트 목록 class 초기화
       bindSelectDayEventList(_context_, targetEventList);
@@ -415,7 +507,8 @@
       // TODO: data 타입 체크하기.. (event push가 가능한 타입인지.) - 검증
       // TODO: 이렇게 했을 때 데이터를 가져오고 따로 addEvent를 통해서 push 한 데이터는 어떻게 해야할지 생각..
       // 이벤트 그리기
-      drawEvent(_context_, globalEvent);
+      GLOBAL_EVENTS_STATES = globalEvent;
+      drawEvent(_context_);
     });
   };
 
@@ -439,65 +532,40 @@
 
     const $calContentsBody = takeQuerySelectorByName($root, CLS_CAL_BODY_CONTENTS__BODY);
 
-    let prevDayArr = getPrevDayList(_context_); // 이전 달 일 목록 가져오기
-    let currentDayArr = getCurrentDayList(_context_); // 현재 달 일 목록 가져오기
-    let nextDayArr = getNextDayList(_context_);  // 다음 달 일 목록 가져오기
+    let dateList = getPrevDayList(_context_).concat(getCurrentDayList(_context_)).concat(getNextDayList(_context_));
 
     // 일 그리기
-    let nodeString = '';
+    let nodeString = dateList.map(function (date) {
+      const type = date.type || 'current';
 
-    // 이전 달 일 목록 node string
-    if (Array.isArray(prevDayArr)) {
-      const prevDayArrSize = prevDayArr.length;
-      for (let i=0; i < prevDayArrSize; i++) {
+      let calendarBodyDayBoxClassName = CLS_CAL_BODY_BODY_DAY_BOX;
 
-        const day = prevDayArr[i];
-
-        if (i === 0) { // 달력 그리기 시작일 체크
-          _context_.currentMonthInfo.startDate = day.id ? day.id.toDate() : null;
-        }
-
-        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX + ' ' + CLS_CAL_BODY_BODY_DAY_PREV + '" id="d' + day.id + '" name="' + CLS_CAL_BODY_BODY_DAY_BOX + '">';
-        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX_DAY + '"><span>' + day.day + '</span></div>';
-        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_EVENTS + '"></div>';
-        nodeString += '</div>';
+      switch(type) {
+        case 'prev':
+          calendarBodyDayBoxClassName = calendarBodyDayBoxClassName.concat(' ' + CLS_CAL_BODY_BODY_DAY_PREV);
+          break;
+        case 'next':
+          calendarBodyDayBoxClassName = calendarBodyDayBoxClassName.concat(' ' + CLS_CAL_BODY_BODY_DAY_NEXT);
+          break;
+        default:
+          const todayClassName = isTodayYn(_context_, date.day) ? ' '.concat(CLS_CAL_BODY_BODY_DAY_TODAY) : '';
+          calendarBodyDayBoxClassName = calendarBodyDayBoxClassName.concat(todayClassName);
+          break;
       }
-    }
 
-    // 현재 달 일 목록 node string
-    if (Array.isArray(currentDayArr)) {
-      currentDayArr.forEach(function (day) {
+      return hns('div', { class: calendarBodyDayBoxClassName, id: 'd'.concat(date.id), name: CLS_CAL_BODY_BODY_DAY_BOX },
+        [
+          hns('div', { class: CLS_CAL_BODY_BODY_DAY_BOX_DAY }, 
+            [
+              hns('span', null, date.day)
+            ]
+          ),
+          hns('div', { class: CLS_CAL_BODY_BODY_DAY_EVENTS }, '')
+        ]
+      );
+    });
 
-        const todayYn = isTodayYn(_context_, day.day);
-
-        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX;
-        if (todayYn) nodeString += ' ' + CLS_CAL_BODY_BODY_DAY_TODAY;
-        nodeString += '" id="d' + day.id + '"  name="' + CLS_CAL_BODY_BODY_DAY_BOX + '">';
-        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX_DAY + '"><span>' + day.day + '</span></div>';
-        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_EVENTS + '"></div>'
-        nodeString += '</div>';
-      });
-    }
-
-    // 다음 달 일 목록 node string
-    if (Array.isArray(nextDayArr)) {
-      const nextDayArrSize = nextDayArr.length;
-
-      for (let k=0; k < nextDayArrSize; k++) {
-        const day = nextDayArr[k];
-
-        if (k === (nextDayArrSize - 1)) {
-          _context_.currentMonthInfo.endDate = day.id ? day.id.toDate() : null;
-        }
-
-        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX + ' ' + CLS_CAL_BODY_BODY_DAY_NEXT + '" id="d' + day.id + '"  name="' + CLS_CAL_BODY_BODY_DAY_BOX + '">';
-        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_BOX_DAY + '"><span>' + day.day + '</span></div>'
-        nodeString += '<div class="' + CLS_CAL_BODY_BODY_DAY_EVENTS + '"></div>'
-        nodeString += '</div>';
-      }
-    }
-
-    $nodeMount($calContentsBody, nodeString);
+    $nodeMount($calContentsBody, nodeString.join(''));
   };
 
   // 선택한 일 정보 바인딩
@@ -559,6 +627,7 @@
       const $infoTypeContentsBody = takeQuerySelectorByClass($infoTypeContents, CLS_CAL_BODY_CONTENTS__BODY);
 
       if ($infoTypeContentsBody) {
+        console.log(eventList);
         if (Array.isArray(eventList) && eventList.length > 0) {
           const infoTypeContentsBodyEventUlContainer = document.createElement('ul');
           infoTypeContentsBodyEventUlContainer.classList.add(CLS_SELECT_INFO_EVENT_CONTAINER);
@@ -581,21 +650,27 @@
     _eventList.forEach(function(_event) {
 
       _event = _event || {};
-      
+
       const title = _event.title || '';
       const startValue = _event.startDate.hyphenYYYYMMDDHHMM();
       const endValue = _event.endDate.hyphenYYYYMMDDHHMM();
       const conts = _event.contents;
-
-      str += '<li class="' + CLS_SELECT_INFO_EVENT_BOX + ' value' + eventCount + '">';
-      str += '<input type="checkbox" checked />';
-      str += '<i></i>';
-      str += '<div class="' + CLS_SELECT_INFO_EVENT_TITLE + '">' + title + '</div>';
-      str += '<div class="' + CLS_SELECT_INFO_EVENT_CONTENTS + '">';
-      str += '<p>' + startValue + ' ~ ' + endValue + '</p>';
-      str += '<div>' + conts + '</div>';
-      str += '</div>';
-      str += '</li>';
+      
+      str = str.concat(
+        hns('li', { class: CLS_SELECT_INFO_EVENT_BOX.concat(' value').concat(eventCount) }, 
+          [
+            hns('input', { type: 'checkbox', checked: true }, '' ),
+            hns('i', null, ''),
+            hns('div', { class: CLS_SELECT_INFO_EVENT_TITLE }, title),
+            hns('div', { class: CLS_SELECT_INFO_EVENT_CONTENTS }, 
+              [
+                hns('p', null, startValue.concat(' ~ ').concat(endValue) ),
+                hns('div', null, conts)
+              ]
+            ),
+          ]
+        )
+      );
     });
 
     return str;
@@ -635,7 +710,8 @@
       arr.push(
         {
           id: dayComponentPrefixId + zp(day.toString(), 2),
-          day: day
+          day: day,
+          type: 'prev'
         }
       );
     }
@@ -678,8 +754,9 @@
         {
           id: dayComponentPrefixId + zp(j.toString(), 2),
           day: day,
+          type: 'current'
         }
-        );
+      );
     }
 
     return arr;
@@ -719,7 +796,8 @@
       arr.push(
         {
           id: dayComponentPrefixId + zp(day.toString(), 2),
-          day: day
+          day: day,
+          type: 'next'
         }
       );
     }
@@ -745,14 +823,14 @@
 
   // 이벤트 목록 넣고 정렬
   const eventArrPushAndSort = function (_context_, inputArr, currentGlobalEventList) {
-    currentGlobalEventList = currentGlobalEventList.concat(inputArr);
-    if (Array.isArray(currentGlobalEventList)) {
+    GLOBAL_EVENTS_STATES = GLOBAL_EVENTS_STATES.concat(inputArr);
+    if (Array.isArray(GLOBAL_EVENTS_STATES)) {
       
-      const eventArrSize = currentGlobalEventList.length;
+      const eventArrSize = GLOBAL_EVENTS_STATES.length;
 
       // 데이터 포맷 작업
       for (let i=0; i < eventArrSize ; i++) {
-        let _event = currentGlobalEventList[i];
+        let _event = GLOBAL_EVENTS_STATES[i];
 
         _event.diffDays = _event.diffDays || 0;
         _event.id = _event.id || uuidv4();  // id 값이 있으면 id 값을 사용. 없으면 uuid로 대체
@@ -770,13 +848,13 @@
       }
 
       // 데이터 정렬 -  start 오름차순
-      currentGlobalEventList = currentGlobalEventList.sort(function (a, b) {
+      currentGlobalEventLisGLOBAL_EVENTS_STATESt = GLOBAL_EVENTS_STATES.sort(function (a, b) {
         return a.startDate - b.startDate;
       }).filter(function (_event) { // startDate와 endDate가 있는 것만 사용
         return _event.startDate && _event.endDate;
       });
 
-      drawEvent(_context_, currentGlobalEventList); // 이벤트 넣고 정렬 후 바인딩
+      drawEvent(_context_); // 이벤트 넣고 정렬 후 바인딩
     }
   };
 
@@ -804,7 +882,7 @@
   };
 
   // 이벤트 그리기
-  const drawEvent = function (_context_, eventList) {
+  const drawEvent = function (_context_) {
     const $root = _context_.root;
 
     if ($root) {
@@ -815,11 +893,11 @@
 
       if ($calendarBody) {
 
-        let eventListSize = eventList.length;
+        let eventListSize = GLOBAL_EVENTS_STATES.length;
 
         for (let i = 0; i < eventListSize; i++) {
 
-          const eventInfo = eventList[i];
+          const eventInfo = GLOBAL_EVENTS_STATES[i];
 
           let startDate = new Date(eventInfo.startDate.getTime()); // startDate 의 deepCopy
           let endDate = new Date(eventInfo.endDate.getTime()); // endDate 의 deepCopy
@@ -926,7 +1004,7 @@
   // 캘린더 바디 목록 중 해당 타입만 is-active 로 보여주기
   const showCalContentsBodyOfType = function(_context_, contentsBodyTypeClassName) {
     const $root = _context_.root;
-    const $calendarContentsList = takeQuerySelectorByClass($root, CLS_CAL_BODY_CONTENTS);
+    const $calendarContentsList = takeQuerySelectorAllByClass($root, CLS_CAL_BODY_CONTENTS);
     
     if ($calendarContentsList) {
 
@@ -947,8 +1025,8 @@
   // 캘린더 바디 타입에 해당하는 node 가져오기
   const getNodeElementByCalContentsType = function (_context_, contentsBodyTypeClassName) {
     const $root = _context_.root;
-    const $calendarContentsList = takeQuerySelectorByClass($root, CLS_CAL_BODY_CONTENTS);
-    
+    const $calendarContentsList = takeQuerySelectorAllByClass($root, CLS_CAL_BODY_CONTENTS);
+
     let result = null;
 
     if ($calendarContentsList) {
@@ -1187,39 +1265,79 @@
    * query selector by class name wrapper
    */
   const takeQuerySelectorByClass = function (parents, findClassName) {
-    return takeQuerySelector(parents, '.' + findClassName);
+    const nodeList = takeQuerySelectorAll(parents, '.' + findClassName);
+    return nodeList ? nodeList[0] : nodeList;
   };
 
-  /**
-   * query selector by id wrapper
-   */
-  const takeQuerySelectorById = function (parents, findId) {
-    return takeQuerySelector(parents, '#' + findId);
+  const takeQuerySelectorAllByClass = function (parents, findClassName) {
+    return takeQuerySelectorAll(parents, '.' + findClassName);
   };
 
   /**
    * query selector by name wrapper
    */
-  const takeQuerySelectorByName = function (paranets, findName) {
-    return takeQuerySelector(paranets, '[name="' + findName + '"]');
+  const takeQuerySelectorByName = function (parents, findName) {
+    const nodeList = takeQuerySelectorAll(parents, '[name="' + findName + '"]');
+    return nodeList ? nodeList[0] : nodeList;
+  };
+
+  const takeQuerySelectorAllByName = function (parents, findClassName) {
+    return takeQuerySelectorAll(parents, '[name="' + findName + '"]')
   };
 
   /**
    * query selector wrapper
    */
-  const takeQuerySelector = function (parents, selector) {
+  const takeQuerySelectorAll = function (parents, selector) {
     if (!isElement(parents)) {
       return null;
     }
 
-    return parents.querySelector(selector);
+    return parents.querySelectorAll(selector);
+  };
+
+
+  /**
+   * node string 을 만드는 wrapper 함수
+   * @param {*} tag : 만들 tag
+   * @param {*} attr : 해당 태그에 적용할 속성 객체
+   * @param {*} children : 자식 노드들
+   */
+  const hns = createNodeString = function (tag, attr, children) {
+    let str = '';
+
+    str = str.concat('<' + tag); // 기본 여는 태그 시작
+
+    if (isObject(attr)) { // attr 속성이 존재하면.. 속성 string 적용
+      for (let key in attr) {
+        const value = attr[key];
+        str = str.concat(' ' + key + '="' + value + '"');
+      }
+    }
+    str = str.concat('>'); // 기본 여는 태그 종료
+    if (children) { // 자식 string 적용
+      if (Array.isArray(children)) {
+
+        children.forEach(function (child) {
+          str = str.concat(child);
+        });
+      } else if (isString(children)) {
+        str = str.concat(children);
+      } else if (isNumber(children)) {
+        children = children.toString();
+        str = str.concat(children);
+      }
+    }
+    str = str.concat('</' + tag + '>'); // 기본 닫는 태그
+
+    return str;
   };
 
   /**
    * func가 함수인지 확인.
    */
   const isFunction = function (func) {
-    return isObject(func) && func instanceof Function;
+    return typeof func === 'function' && func instanceof Function;
   };
 
   /**
@@ -1283,6 +1401,13 @@
   const isString = function (value) {
     return typeof value === 'string';
   };
+
+  /**
+   * number 타입인지 확인
+   */
+  const isNumber = function (value) {
+    return typeof value === 'number';
+  }
 
   window.CALENDAR = CALENDAR;
 
