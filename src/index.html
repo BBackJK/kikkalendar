@@ -331,29 +331,29 @@
          * headerOptions: 호출할 때 사용하는 header option ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: 'Content-Type': 'application/json'>
          * data: request body data ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: 'Content-Type': 'application/json'>
          */
-        getsFetchInfo: {
-          method: 'get',
-          mode: 'cors',
-          credentials: 'same-origin',
-          url: 'http://localhost:3000/hello?test=1',
-          headers: {
-            'Content-Type': 'application/json' // application/x-www-form-urlencoded
-          },
-          body: {},
-          // successCallbackResponseHandle: function (response) {
-          //   console.log(response);
-          // },
-          failureCallbackResponseHandle: function (error) {
-            console.log('failure callback');
-            console.log(error);
-          },
-          successCatchResponseHandle: function () {
-            console.log('success catch!!');
-          },
-          failureCatchResponseHandle: function () {
-            console.log('failure catch');
-          },
-        },
+        // getsFetchInfo: {
+        //   method: 'get',
+        //   mode: 'cors',
+        //   credentials: 'same-origin',
+        //   url: 'http://localhost:3000/hello?test=1',
+        //   headers: {
+        //     'Content-Type': 'application/json' // application/x-www-form-urlencoded
+        //   },
+        //   body: {},
+        //   // successCallbackResponseHandle: function (response) {
+        //   //   console.log(response);
+        //   // },
+        //   failureCallbackResponseHandle: function (error) {
+        //     console.log('failure callback');
+        //     console.log(error);
+        //   },
+        //   successCatchResponseHandle: function () {
+        //     console.log('success catch!!');
+        //   },
+        //   failureCatchResponseHandle: function () {
+        //     console.log('failure catch');
+        //   },
+        // },
 
         /**
          * 이벤트 생성 api 관련된 프로퍼티 - javascript fetch api 사용
@@ -363,22 +363,22 @@
          * headerOptions: 호출할 때 사용하는 header option ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: 'Content-Type': 'application/json'>
          * data: request body data ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: 'Content-Type': 'application/json'>
          */
-        getFetchInfo: {
-          // isFetchEnable: false,
-          // isHandleResponse: false,
-          url: '',
-          headerOptions: {
-            'Authorization': 'YOUT_ACCESS_TOKEN', // options
-            'Content-Type': 'application/json' // application/x-www-form-urlencoded
-          },
-          data: {},
-          successCallbackResponseHandle: function (response) {
+        // getFetchInfo: {
+        //   // isFetchEnable: false,
+        //   // isHandleResponse: false,
+        //   url: '',
+        //   headerOptions: {
+        //     'Authorization': 'YOUT_ACCESS_TOKEN', // options
+        //     'Content-Type': 'application/json' // application/x-www-form-urlencoded
+        //   },
+        //   data: {},
+        //   successCallbackResponseHandle: function (response) {
 
-          },
-          failureCallbackResponseHandle: function (error) {
+        //   },
+        //   failureCallbackResponseHandle: function (error) {
 
-          },
-        },
+        //   },
+        // },
 
         /**
          * 이벤트 생성 api 관련된 프로퍼티 - javascript fetch api 사용
@@ -388,22 +388,22 @@
          * headerOptions: 호출할 때 사용하는 header option ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: 'Content-Type': 'application/json'>
          * data: request body data ( 사용하려면 반드시 [isFetchEnable]를 true 로 설정 ) <기본값: 'Content-Type': 'application/json'>
          */
-        postFetchInfo: {
-          isFetchEnable: false,
-          isHandleResponse: false,
-          url: '',
-          headerOptions: {
-            'Authorization': 'YOUT_ACCESS_TOKEN', // options
-            'Content-Type': 'application/json' // application/x-www-form-urlencoded
-          },
-          data: {},
-          successCallbackResponseHandle: function (response) {
+        // postFetchInfo: {
+        //   isFetchEnable: false,
+        //   isHandleResponse: false,
+        //   url: '',
+        //   headerOptions: {
+        //     'Authorization': 'YOUT_ACCESS_TOKEN', // options
+        //     'Content-Type': 'application/json' // application/x-www-form-urlencoded
+        //   },
+        //   data: {},
+        //   successCallbackResponseHandle: function (response) {
 
-          },
-          failureCallbackResponseHandle: function (error) {
+        //   },
+        //   failureCallbackResponseHandle: function (error) {
 
-          },
-        },
+        //   },
+        // },
 
         /**
          * 일 선택 시 이벤트 콜백
@@ -412,9 +412,9 @@
          *  eventList: 해당 날짜의 속해있는 이벤트 list
          * }
          */
-        callbackOnClickSelectDate: function (data) {
-          console.log(data);
-        },
+        // callbackOnClickSelectDate: function (data) {
+        //   console.log(data);
+        // },
 
         /**
          * 이전 달 화살표 클릭시 이벤트 캐치
