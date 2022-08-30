@@ -28,6 +28,14 @@ div.__calendar__container__ {line-height:1}
 div.__calendar__container__ ul {list-style: none;}
 div.__calendar__container__ table {border-collapse:collapse;border-spacing:0}
 
+div.__calendar__container__ input,
+div.__calendar__container__ textarea {
+  width: 100%; 
+  box-sizing: border-box;
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing: border-box;
+}
+
 /* =============================
 CONTAINER
 ============================= */
@@ -46,15 +54,12 @@ HEADER
   align-items: center;
 }
 
-.__calendar__container__ .__calendar__container__header__ div {
-  /* margin:auto 0; */
-}
-
 .__calendar__container__ .__calendar__container__header__ .__calendar__arrow__container__ {
   display: flex;
   justify-content: space-between;
-  /* width:50px; */
+  width:50px;
   height: 48px;
+
 }
 
 .__calendar__arrow__prev__,
@@ -68,32 +73,24 @@ HEADER
   height:100%;
 }
 
-.__calendar__arrow__next__ {
-  margin-left:5px !important;
-}
-
-.__calendar__arrow__prev__ i {
-  /* margin-left:10px; */
-}
-
 .__calendar__arrow__prev__ i::after {
   transform: rotate(135deg);
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 .__calendar__arrow__prev__ i::before {
   transform: rotate(45deg);
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 .__calendar__arrow__next__ i::after {
   transform: rotate(45deg);
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 .__calendar__arrow__next__ i::before {
   transform: rotate(135deg);
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 .__calendar__arrow__prev__ i::after,
@@ -102,7 +99,6 @@ HEADER
 .__calendar__arrow__next__ i::before {
   content: "";
   position: absolute;
-  /* background-color: #ace5ee; */
   background-color: black;
   width: 3px;
   height: 15px;
@@ -111,26 +107,21 @@ HEADER
 .__calendar__container__ .__calendar__container__header__ .__calendar__select__date__ {
   font-size: 2.5em;
   line-height: 48px;
+  margin-top: 5px;
 }
 
 .__calendar__container__ .__calendar__container__header__ .__calendar__button__area__ {
-  /* align-items: center;
-  display: flex; */
-  margin-bottom: 3px;
+  /* margin-bottom: 3px; */
 }
 
-.__calendar__container__ .__calendar__container__header__ .__calendar__button__area__ .sidebar button {
-  height: 48px;
+.__calendar__container__ .__calendar__container__header__ .__calendar__button__area__ button {
+  height: 35px;
   background-color: #667cd9;
   color: #fff;
   border: 1px solid #fff;
   border-radius: 8px;
   padding: 0 10px;
   width: 75px;
-}
-
-.sidebar button + button {
-  margin-left: 10px;
 }
 
 /* =============================
@@ -194,6 +185,7 @@ BODY - TYPE: calendar
   padding-bottom: 10px;
   border: 1px solid #F8F8F8;
   text-align: left;
+  cursor: pointer;
 }
 
 .__calendar__contents__.__type_calendar__ .__calendar__contents__body__ .__body__day__box__ .__day__ {
@@ -209,7 +201,6 @@ BODY - TYPE: calendar
   text-align: center;
   border-radius: 50%;
 }
-
 
 .__body__day__box__.__prev__,
 .__body__day__box__.__next__ {
@@ -314,6 +305,11 @@ BODY - TYPE: calendar
 BODY - TYPE: info
 ============================= */
 
+.__calendar__contents__.__type_info__ {
+  /* border: 1px solid #C0C0C0; */
+  border: 1px solid #F8F8F8;
+}
+
 .__calendar__contents__.__type_info__ .__calendar__contents__header__ {
   display: flex;
   justify-content: space-between;
@@ -327,36 +323,44 @@ BODY - TYPE: info
   font-size: 2.0em;
 }
 
-.__calendar__contents__.__type_info__ .__calendar__contents__header__ .__calendar__select__close__ {
+.__calendar__contents__.__type_info__ .__calendar__contents__header__ .__calendar__contents__close__ {
   display:inline-block;
   cursor: pointer;
 }
 
-.__calendar__select__close__::after {
+.__calendar__contents__close__::after {
   display: inline-block;
   content: "\00d7";
   font-size: 2.0em;
-  /* line-height: 48px; */
 }
 
 
 .__calendar__contents__.__type_info__ .__calendar__contents__body__ {
-  border-bottom: 1px solid #C0C0C0;
   border-top:0px;
-  padding-top:20px;
-  padding-bottom:20px;
-  height:calc(100% - 2.0rem - 80px);
+  padding:20px;
+  height:calc(100% - 2.0rem - 142px);
   text-align: left;
+  overflow: auto;
 }
+
+.__calendar__contents__.__type_info__ .__calendar__contents__body__::-webkit-scrollbar {
+  width: 5px;
+}
+
+.__calendar__contents__.__type_info__ .__calendar__contents__body__::-webkit-scrollbar-thumb {
+  background-color: #667cd9;
+  border-radius: 10px;
+}
+.__calendar__contents__.__type_info__ .__calendar__contents__body__::-webkit-scrollbar-track {
+  background-color: #F8F8F8;
+  /* background-color: #C0C0C0; */
+  border-radius: 10px;
+}
+
 
 .__calendar__contents__.__type_info__ .__calendar__contents__body__ div.__contents__body__event__container__ {
   /* height:100%; */
   text-align: center;
-}
-
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ {
-  /* height:100%; */
-  list-style:none;
 }
 
 .__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ {
@@ -372,7 +376,7 @@ BODY - TYPE: info
   position: absolute;
   transform: translate(-6px, 0);
   margin-top: 12px;
-  right: 36px;
+  right: 20px;
 }
 
 .__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ i::before,
@@ -405,6 +409,12 @@ BODY - TYPE: info
   max-height: 100%;
   opacity: 1;
   transform: translate(0, 0);
+  padding:10px 0px;
+}
+
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .__contents__ p,
+.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .__contents__ div {
+  padding: 10px 0px;
 }
 
 .__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ input[type=checkbox] {
@@ -430,6 +440,7 @@ BODY - TYPE: info
   max-height: 0;
   opacity: 0;
   transform: translate(0, 50%);
+  padding:0px;
 }
 
 .__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ input[type=checkbox]:checked ~ i::before {
@@ -450,115 +461,125 @@ BODY - TYPE: info
   border-right-color: #ace5ee;
 }
 
-/* .__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .__event__ .__event__title__::before {
-  content: '';
-  border-right-width: 22px;
-  border-right-style: solid;
-  position: relative;
-  margin-right: 10px;
+.__calendar__contents__.__type_info__ .__calendar__contents__footer__ {
+   text-align: center;
+   height: 40px;
+   align-items: center;
+   display: flex;
+   justify-content: end;
+   padding: 10px 20px;
+}
+
+.__calendar__contents__.__type_info__ .__calendar__contents__footer__ button {
+  height:100%;
+  width:40px;
   border-radius: 50%;
-} */
+  border: none;
 
-/* .__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .__event__ .__event__title__.value1::before {
-  border-right-color: #ace5ee;
-}
-
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .__event__ .__event__title__.value2::before {
-  border-right-color: #ff6347;
-}
-
-.__calendar__contents__.__type_info__ .__calendar__contents__body__ ul.__contents__body__event__container__ .__body__event__box__ .__event__ .__event__title__.value3::before {
-  border-right-color: #EAE3D2;
-} */
-
-
-
-/* =============================
-TEST
-============================= */
-
-
-/* input 중에 id가 trigger인 항목에 대한 css */
-input[id=trigger] {
-  display: none;
-}
-
-/* label 중에 for가 trigger인 항목 */
-label[for=trigger] {
-  width: 30px;
-  height: 20px;
-  display: block;
-  position: relative;
+  background-color: #667cd9;
+  color: #fff;
+  font-size: 24px;
   cursor: pointer;
 }
 
-/* label 중에 for가 trigger인 항목 안의 span */
-label[for=trigger] span {
-  display: block;
-  height: 2px;
-  background-color: #000;
-  left: 0;
-  width: 100%;
-  position: absolute;
-  transition: 0.3s;
-  z-index: 1000; 
+/* =============================
+BODY - TYPE: add
+============================= */
+.__calendar__contents__.__type_add__ {
+  /* background-color: yellowgreen; */
+  border: 1px solid #F8F8F8;
+  text-align: left;
 }
 
-/* label[for=trigger] > span의 n번째 요소 */
-label[for=trigger] span:nth-child(1) {
-  top:0;
-}
-
-label[for=trigger] span:nth-child(2) {
-  top:50%;
-}
-
-label[for=trigger] span:nth-child(3) {
-  top:100%;
-}
-
-/* check시 변하는 label[for=trigger] > span의 n번째 요소  */
-input[id=trigger]:checked + label span:nth-child(1) {
-  top: 50%;
-  transform: rotate(45deg);
-}
-
-input[id=trigger]:checked + label span:nth-child(2) {
-  opacity: 0;
-}
-
-input[id=trigger]:checked + label span:nth-child(3) {
-  top: 50%;
-  transform: rotate(-45deg);
-}
-
-/* input[id=trigger]가 체크되었을 때 사이드바가 나오는 형제 인접자 */
-input[id=trigger]:checked ~ .sidebar {
-  opacity: 1;
-  /* width:initial;
-  overflow:visible; */
-}
-
-/* check시 같이 밀려나가는 CSS 햄버거 메뉴 */
-input[id=trigger]:checked + label[for=trigger] {
-  transition: 0.3s;
-}
-
-/* 사이드바 */
-.sidebar {
-  /* width: 150px; */
+.__calendar__contents__.__type_add__ .__calendar__contents__header__ {
   display: flex;
-  background-color: #fff;
-  
-  opacity: 0;
+  justify-content: space-between;
+  /* background-color: #F5F5F5; */
+  border-top: 1px solid #C0C0C0;
+  border-bottom: 1px solid #C0C0C0;
+  padding:20px;
+}
 
-  position: absolute;
-  transition: 0.3s;
-  /* border: 1px solid #C0C0C0 !important; */
-  padding:10px;
-  /* left: -100px; */
-  top: 7px;
-  left: 55px;
-  /* width:0px; */
-  /* overflow: hidden; */
+.__calendar__contents__.__type_add__ .__calendar__contents__header__ .__calendar__contents__title__ {
+  font-size: 2.0em;
+}
+
+.__calendar__contents__.__type_add__ .__calendar__contents__header__ .__calendar__contents__close__ {
+  display:inline-block;
+  cursor: pointer;
+}
+
+.__calendar__contents__.__type_add__ .__calendar__contents__body__ {
+  /* padding:20px; */
+  border-top:0px;
+  padding:20px;
+  height:calc(100% - 2.0rem - 142px);
+  text-align: left;
+  overflow: auto;
+}
+
+.__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ + .__form__label__input__ {
+  margin-top:20px;
+}
+
+.__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ label {
+  display: block;
+}
+
+.__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ input,
+.__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ textarea {
+  width:100%;
+  margin: 10px 0px;
+  outline: #667cd9;
+  border: 1px solid #C0C0C0;
+  padding:0px 5px;
+}
+
+.__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ input {
+  height:40px;
+  border-radius: 5px;
+}
+
+.__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ textarea {
+  height:150px;
+  padding:5px 5px;
+}
+
+.__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ input:focus,
+.__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ textarea:focus {
+  outline: none !important;
+  border-color: #667cd9;
+  box-shadow: 0 0 5px #667cd9;
+}
+
+.__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__btn__area__ {
+  text-align: center;
+}
+
+.__calendar__contents__.__type_add__ .__calendar__contents__footer__ {
+  text-align: center;
+  height: 40px;
+  padding: 10px 20px;
+}
+
+.__calendar__contents__.__type_add__ .__calendar__contents__footer__ button {
+  height: 35px;
+  border-radius: 8px;
+  padding: 0 10px;
+  width: 75px;
+  cursor: pointer;
+}
+
+.__calendar__contents__.__type_add__ .__calendar__contents__footer__ button + button {
+  margin-left: 20px;
+}
+
+.__calendar__contents__.__type_add__ .__calendar__contents__footer__ button[type=button] {
+  background-color: #667cd9;
+  color: #fff;
+  border: none;
+}
+
+.__calendar__contents__.__type_add__ .__calendar__contents__footer__ button[type=reset] {
+  border: 1px solid #C0C0C0;
 }

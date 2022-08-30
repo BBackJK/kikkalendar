@@ -19,20 +19,7 @@
       <div class="__calendar__container__">
         <div class="__calendar__container__header__">
           <div class="__calendar__button__area__">
-            <!-- <button type="button">TODAY</button> -->
-            <!-- 햄버거 메뉴 -->
-            <input type="checkbox" id="trigger" >
-            <label for="trigger">
-                <!-- 햄버거 세줄 표현 -->
-                <span></span>
-                <span></span>
-                <span></span>
-            </label>
-            <div class="sidebar">
-              <button type="button">TODAY</button>
-              <button type="button">ADD</button>
-              <button type="button">UPDATE</button>
-            </div>
+            <button type="button">TODAY</button>
           </div>
           <div class="__calendar__select__date__">
             <span class="__current__select__year__">2022</span>
@@ -50,7 +37,7 @@
         </div>
         <div class="__calendar__container__body__">
 
-          <div class="__calendar__contents__ __type_calendar__ __is_active__ ">
+          <div class="__calendar__contents__ __type_calendar__">
             <div class="__calendar__contents__header__">
               <div class="__header__day_of_week__">일</div>
               <div class="__header__day_of_week__">월</div>
@@ -202,50 +189,109 @@
               </div>
             </div>
           </div>
-
+          <!-- __is_active__ -->
           <div class="__calendar__contents__ __type_info__">
             <div class="__calendar__contents__header__">
               <div class="__calendar__select__day__">2022. 08. 06</div>
-              <div class="__calendar__select__close__"></div>
+              <div class="__calendar__contents__close__"></div>
             </div>
-            <div class="__calendar__contents__body__" style="height: 752px;">
-                <div class="__contents__body__event__container__">
-                  <span>이벤트가 없습니다.</span>
-                </div>
+            <div class="__calendar__contents__body__" style="height: 547px;">
+            <!-- <div class="__calendar__contents__body__"> -->
+              <div class="__contents__body__event__container__">
+                <span>이벤트가 없습니다.</span>
+              </div>
                 
-                <ul class="__contents__body__event__container__">
-                  <li class="__body__event__box__ value1">
-                    <input type="checkbox" checked />
-                    <i></i>
-                    <div class="__title__">이벤트 1</div>
-                    <div class="__contents__">
-                      <p>2022-08-02 14:00 ~ 2022-08-06 16:00</p>
-                      <div>이화진은 바보 멍청이</div>
-                    </div>
-                  </li>
-                  <li class="__body__event__box__ value2">
-                    <input type="checkbox" checked />
-                    <i></i>
-                    <div class="__title__">이벤트 2</div>
-                    <div class="__contents__">
-                      <p>2022-08-02 14:00 ~ 2022-08-06 16:00</p>
-                      <div>이화진은 바보 멍청이</div>
-                    </div>
-                  </li>
-                  <li class="__body__event__box__ value3">
-                    <input type="checkbox" checked />
-                    <i></i>
-                    <div class="__title__">이벤트 3</div>
-                    <div class="__contents__">
-                      <p>2022-08-02 14:00 ~ 2022-08-06 16:00</p>
-                      <div>이화진은 바보 멍청이</div>
-                    </div>
-                  </li>
-                </ul>
-              <!-- </div> -->
+              <ul class="__contents__body__event__container__">
+                <li class="__body__event__box__ value1">
+                  <input type="checkbox" checked />
+                  <i></i>
+                  <div class="__title__">이벤트 1</div>
+                  <div class="__contents__">
+                    <p>2022-08-02 14:00 ~ 2022-08-06 16:00</p>
+                    <div>이화진은 바보 멍청이</div>
+                  </div>
+                </li>
+                <li class="__body__event__box__ value2">
+                  <input type="checkbox" checked />
+                  <i></i>
+                  <div class="__title__">이벤트 2</div>
+                  <div class="__contents__">
+                    <p>2022-08-02 14:00 ~ 2022-08-06 16:00</p>
+                    <div>이화진은 바보 멍청이</div>
+                  </div>
+                </li>
+                <li class="__body__event__box__ value3">
+                  <input type="checkbox" checked />
+                  <i></i>
+                  <div class="__title__">이벤트 3</div>
+                  <div class="__contents__">
+                    <p>2022-08-02 14:00 ~ 2022-08-06 16:00</p>
+                    <div>이화진은 바보 멍청이</div>
+                  </div>
+                </li>
+                <li class="__body__event__box__ value1">
+                  <input type="checkbox" checked />
+                  <i></i>
+                  <div class="__title__">이벤트 1</div>
+                  <div class="__contents__">
+                    <p>2022-08-02 14:00 ~ 2022-08-06 16:00</p>
+                    <div>이화진은 바보 멍청이</div>
+                  </div>
+                </li>
+                <li class="__body__event__box__ value2">
+                  <input type="checkbox" checked />
+                  <i></i>
+                  <div class="__title__">이벤트 2</div>
+                  <div class="__contents__">
+                    <p>2022-08-02 14:00 ~ 2022-08-06 16:00</p>
+                    <div>이화진은 바보 멍청이</div>
+                  </div>
+                </li>   
+              </ul>
+            </div>
+            <div class="__calendar__contents__footer__">
+              <!-- <button type="button">+</button> -->
             </div>
           </div>
 
+          <div class="__calendar__contents__ __type_add__ __is_active__">
+            <div class="__calendar__contents__header__">
+              <div class="__calendar__contents__title__">등록</div>
+              <div class="__calendar__contents__close__"></div>
+            </div>
+            <div class="__calendar__contents__body__"  style="height: 547px;">
+              <div class="__calendar__event__register__form__">
+                <div class="__form__label__input__">
+                  <label for="__form__title__">제목</label>
+                  <input type="text" id="__form__title__" placeholder="please input event title..." />
+                </div>
+
+                <div class="__form__label__input__">
+                  <label for="__form__start__">시작일</label>
+                  <input type="date" id="__form__start__" placeholder="please input event start date time..." />
+                </div>
+
+                <div class="__form__label__input__">
+                  <label for="__form__end__">종료일</label>
+                  <input type="date" id="__form__end__" placeholder="please input event end date time..." />
+                </div>
+
+                <div class="__form__label__input__">
+                  <label for="__form__contents__">내용</label>
+                  <textarea placeholder="내용을 입력하세요."
+                            name="contents"
+                            style="resize: none;"
+                            id="__form__contents__"
+                    ></textarea>
+                </div>
+
+              </div>
+            </div>
+            <div class="__calendar__contents__footer__">
+              <button type="button">SAVE</button>
+              <button type="reset">RESET</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -321,7 +367,7 @@
     (function () {
 
       const options = {
-
+        
         /**
          * 이벤트 목록 api 관련된 프로퍼티 - javascript fetch api 사용
          * method: method 정의 (default: get)
@@ -412,21 +458,24 @@
          *  eventList: 해당 날짜의 속해있는 이벤트 list
          * }
          */
-        callbackOnClickSelectDate: function (data) {
-          console.log(data);
+        // callbackOnClickSelectDate: function (data) {
+        //   console.log(data);
+        // },
+        triggerOnClickSelectDate: function () {
+          console.log(' trigger select date click event ');
         },
 
         /**
          * 이전 달 화살표 클릭시 이벤트 캐치
          */
-        catchOnClickMovePrevMonth: function () {
+        triggerOnClickMovePrevMonth: function () {
           console.log(myCalendar);
         },
 
         /**
          * 다음 달 화살표 클릭시 이벤트 캐치
          */
-        catchOnClickMoveNextMonth: function () {
+        triggerOnClickMoveNextMonth: function () {
           console.log(myCalendar);
         },
 

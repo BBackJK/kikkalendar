@@ -22,10 +22,10 @@
   const CLS_CURRNET_DATE_MONTH = '__current__select__month__';
 
   const CLS_CAL_BODY_CONTENTS = '__calendar__contents__';
-  const CLS_CAL_BODY_CONTENTS__HEADER = '__calendar__contents__header__';
+  const CLS_CAL_BODY_CONTENTS_HEADER = '__calendar__contents__header__';
   const CLS_CAL_BODY_HEADER_WEEK = '__header__day_of_week__';
 
-  const CLS_CAL_BODY_CONTENTS__BODY = '__calendar__contents__body__';
+  const CLS_CAL_BODY_CONTENTS_BODY = '__calendar__contents__body__';
   const CLS_CAL_BODY_BODY_DAY_BOX = '__body__day__box__';
   const CLS_CAL_BODY_BODY_DAY_BOX_DAY = '__day__';
   const CLS_CAL_BODY_BODY_DAY_PREV = '__prev__';
@@ -33,23 +33,28 @@
   const CLS_CAL_BODY_BODY_DAY_NEXT = '__next__';
   const CLS_CAL_BODY_BODY_DAY_EVENTS = '__event__';
 
+  const CLS_CAL_BODY_CONTENTS_FOOTER = '__calendar__contents__footer__';
+
   const CLS_CAL_BODY_TYPE_CALENDAR = '__type_calendar__';
   const CLS_CAL_BODY_TYPE_INFO = '__type_info__';
   const CLS_CAL_BODY_TYPE_PICKER = '__type_picker__';
   const CLS_IS_ACTIVE = '__is_active__';
 
   const CLS_SELECT_INFO_DAY = '__calendar__select__day__';
-  const CLS_SELECT_INFO_CLOSE_BTN = '__calendar__select__close__';
+  const CLS_SELECT_INFO_CLOSE_BTN = '__calendar__contents__close__';
 
   const CLS_SELECT_INFO_EVENT_CONTAINER = '__contents__body__event__container__';
   const CLS_SELECT_INFO_EVENT_BOX = '__body__event__box__';
   const CLS_SELECT_INFO_EVENT_TITLE = '__title__';
   const CLS_SELECT_INFO_EVENT_CONTENTS = '__contents__';
 
+
   // 이벤트 클릭 시 핸들링 할 수 있는 콜백함수명들
-  const CALLBACK_EVENT_SELECT_DATE_CLICK = 'callbackOnClickSelectDate';
-  const CATCH_MOVE_PREV_MONTH_CLICK = 'catchOnClickMovePrevMonth';
-  const CATCH_MOVE_NEXT_MONTH_CLICK = 'catchOnClickMoveNextMonth';
+  const CALLBACK_DATE_SELECT_FUNC = 'callbackOnClickSelectDate';
+  const TRIGGER_DATE_SELECT_FUNC = 'triggerOnClickSelectDate';
+
+  const TRIGGER_MOVE_PREV_MONTH_FUNC = 'triggerOnClickMovePrevMonth';
+  const TRIGGER_MOVE_NEXT_MONTH_FUNC = 'triggerOnClickMoveNextMonth';
 
   // 캘린더 기본 높이값
   const CALENDAR_DEFAULT_ELEMENT_HEIGHT_VALUE = 752;
@@ -211,7 +216,6 @@
     );
   };
 
-  // 바디 그리기
   // const getCalendarBodyNodeString = function () {
 
   //   let nodeString = '<div class="' + CLS_CAL_CONTAINER_BODY + '">';
@@ -222,6 +226,7 @@
   //   return nodeString;
   // };
 
+  // 바디 그리기
   const getCalendarBodyNodeString = function () {
     return hns('div', { class: CLS_CAL_CONTAINER_BODY }, 
       [
@@ -235,7 +240,7 @@
   // const getCalendarBodyTypeCalendarNodeString = function () {
   //   let nodeString = '<div class="' + CLS_CAL_BODY_CONTENTS + ' ' + CLS_CAL_BODY_TYPE_CALENDAR + ' ' + CLS_IS_ACTIVE + '">';
   //   nodeString += drawDayOfWeek();
-  //   nodeString += '<div class="' + CLS_CAL_BODY_CONTENTS__BODY + '" name="' + CLS_CAL_BODY_CONTENTS__BODY + '"></div>';
+  //   nodeString += '<div class="' + CLS_CAL_BODY_CONTENTS_BODY + '" name="' + CLS_CAL_BODY_CONTENTS_BODY + '"></div>';
   //   nodeString += '</div>';
 
   //   return nodeString;
@@ -246,20 +251,19 @@
     return hns('div', { class: CLS_CAL_BODY_CONTENTS + ' ' + CLS_CAL_BODY_TYPE_CALENDAR + ' ' + CLS_IS_ACTIVE},
             [
               drawDayOfWeek(),
-              hns('div', { class: CLS_CAL_BODY_CONTENTS__BODY, name: CLS_CAL_BODY_CONTENTS__BODY }, '')
+              hns('div', { class: CLS_CAL_BODY_CONTENTS_BODY, name: CLS_CAL_BODY_CONTENTS_BODY }, '')
             ]
           );
   };
 
-  // 바디 - 타입이 info 인거 그리기
   // const getCalendarBodyTypeInfoNodeString = function () {
 
   //   let nodeString = '<div class="' + CLS_CAL_BODY_CONTENTS + ' ' + CLS_CAL_BODY_TYPE_INFO + '">';
-  //   nodeString += '<div class="' + CLS_CAL_BODY_CONTENTS__HEADER + '">';
+  //   nodeString += '<div class="' + CLS_CAL_BODY_CONTENTS_HEADER + '">';
   //   nodeString += '<div class="' + CLS_SELECT_INFO_DAY + '" name="' + CLS_SELECT_INFO_DAY + '"></div>';
   //   nodeString += '<div class="' + CLS_SELECT_INFO_CLOSE_BTN + '" name="' + CLS_SELECT_INFO_CLOSE_BTN + '"></div>';
   //   nodeString += '</div>';
-  //   nodeString += '<div class="' + CLS_CAL_BODY_CONTENTS__BODY + '">';
+  //   nodeString += '<div class="' + CLS_CAL_BODY_CONTENTS_BODY + '">';
   //   nodeString += '<div class="' + CLS_SELECT_INFO_EVENT_CONTAINER + '"><span>이벤트가 없습니다.</span></div>';
   //   nodeString += '</div>';
   //   nodeString += '</div>';
@@ -267,22 +271,31 @@
   //   return nodeString;
   // };
 
+  // 바디 - 타입이 info 인거 그리기
   const getCalendarBodyTypeInfoNodeString = function () {
     return hns('div', { class: CLS_CAL_BODY_CONTENTS + ' ' + CLS_CAL_BODY_TYPE_INFO }, 
             [
-              hns('div', { class: CLS_CAL_BODY_CONTENTS__HEADER }, 
+              // 헤더
+              hns('div', { class: CLS_CAL_BODY_CONTENTS_HEADER }, 
                 [
                   hns('div', { class: CLS_SELECT_INFO_DAY, name: CLS_SELECT_INFO_DAY }, ''),
                   hns('div', { class: CLS_SELECT_INFO_CLOSE_BTN, name: CLS_SELECT_INFO_CLOSE_BTN }, ''),
                 ]
               ),
-              hns('div', { class: CLS_CAL_BODY_CONTENTS__BODY },
+              // 바디
+              hns('div', { class: CLS_CAL_BODY_CONTENTS_BODY },
                 [
                   hns('div', { class: CLS_SELECT_INFO_EVENT_CONTAINER }, 
                     [
                       hns('span', null, '이벤트가 없습니다.')
                     ]
                   )
+                ]
+              ),
+              // 푸터
+              hns('div', { class: CLS_CAL_BODY_CONTENTS_FOOTER }, 
+                [
+                  hns('button', { type: 'button'}, '+')
                 ]
               )
             ]
@@ -291,7 +304,7 @@
 
   // 요일 그리기
   // const drawDayOfWeek = function () {
-  //   let nodeString = '<div class="' + CLS_CAL_BODY_CONTENTS__HEADER + '">';
+  //   let nodeString = '<div class="' + CLS_CAL_BODY_CONTENTS_HEADER + '">';
   //   nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">일</div>';
   //   nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">월</div>';
   //   nodeString += '<div class="' + CLS_CAL_BODY_HEADER_WEEK + '">화</div>';
@@ -306,7 +319,7 @@
   const drawDayOfWeek = function () {
     let dayOfWeekList = ['일', '월', '화', '수', '목', '금', '토'];
 
-    return hns('div', { class: CLS_CAL_BODY_CONTENTS__HEADER }, 
+    return hns('div', { class: CLS_CAL_BODY_CONTENTS_HEADER }, 
       dayOfWeekList.map(function (day) {
         return hns('div', { class: CLS_CAL_BODY_HEADER_WEEK }, day);
       })
@@ -354,7 +367,7 @@
     _context_.currentMonthInfo.month = prevMonth.getMonth() + 1;
 
     drawBindingData(_context_);
-    catchFunctionHandler(_context_, CATCH_MOVE_PREV_MONTH_CLICK);
+    triggerFunctionHandler(_context_, TRIGGER_MOVE_PREV_MONTH_FUNC);
   };
 
   // 다음 달 계산
@@ -368,7 +381,7 @@
     _context_.currentMonthInfo.month = nextMonth.getMonth() + 1;
 
     drawBindingData(_context_);
-    catchFunctionHandler(_context_, CATCH_MOVE_NEXT_MONTH_CLICK);
+    triggerFunctionHandler(_context_, TRIGGER_MOVE_NEXT_MONTH_FUNC);
   };
 
   // 오늘날로 점프
@@ -408,7 +421,7 @@
           return event && event.id && 
           $eventContainerItem && $eventContainerItem.dataset && 
           event.id === $eventContainerItem.dataset.id;
-        })[0];
+        });
 
         targetEventList.push(targetEvent);
       }
@@ -420,9 +433,10 @@
     };
 
     // 사용자가 설정한 옵션에 해당 이벤트 키값이 있으면 그 함수로 호출
-    const callbackFunc = getsOptionProperty(_context_, CALLBACK_EVENT_SELECT_DATE_CLICK);
+    const callbackFunc = getsOptionProperty(_context_, CALLBACK_DATE_SELECT_FUNC);
 
-    callbackHandler(callbackFunc, parameter, function () {
+    // 콜백함수 핸들러 호출
+    callbackFunctionHandler(callbackFunc, parameter, function () {
       // 아니면 설정한 이벤트 사용
 
       // 현재 캘린더 높이 값 구하기
@@ -443,29 +457,9 @@
       // info 타입만 활성화 시키기
       showCalContentsBodyOfType(_context_, CLS_CAL_BODY_TYPE_INFO);
     });
-  };
-  
-  /**
-   * 콜백함수 핸들러
-   * @param {*} calledCallbackFunc 사용자가 정의한 콜백함수
-   * @param {*} parameter 사용자가 정의한 콜백함수 호출 파라미터
-   * @param {*} noUseCallbackScript 사용자가 정의하지 않았을 때 호출되는 스크립트.
-   */
-  const callbackHandler = function (calledCallbackFunc, parameter, noUseCallbackScript) {
 
-    noUseCallbackScript = noUseCallbackScript || (function () { alert(' write callback func!! ')});
-
-    if (calledCallbackFunc) {
-      if (!isFunction(calledCallbackFunc)) {
-        console.error(' ' + CALLBACK_EVENT_SELECT_DATE_CLICK + ' is callback function. please checking parameters ');
-        return false;
-      }
-      
-      calledCallbackFunc(parameter);
-      return false;
-    } 
-
-    noUseCallbackScript();
+    // 트리거 함수 핸들러 호출
+    triggerFunctionHandler(_context_, TRIGGER_DATE_SELECT_FUNC);
   };
 
   // 타입 캘린더로 지정
@@ -517,7 +511,7 @@
 
     const $root = _context_.root;
 
-    const $calContentsBody = takeQuerySelectorByName($root, CLS_CAL_BODY_CONTENTS__BODY);
+    const $calContentsBody = takeQuerySelectorByName($root, CLS_CAL_BODY_CONTENTS_BODY);
 
     let dateList = getPrevDayList(_context_).concat(getCurrentDayList(_context_)).concat(getNextDayList(_context_));
 
@@ -561,7 +555,7 @@
     const $infoTypeContents = getNodeElementByCalContentsType(_context_, CLS_CAL_BODY_TYPE_INFO);
 
     if ($infoTypeContents) {
-      const $infoTypeContentsHeader = takeQuerySelectorByClass($infoTypeContents, CLS_CAL_BODY_CONTENTS__HEADER);
+      const $infoTypeContentsHeader = takeQuerySelectorByClass($infoTypeContents, CLS_CAL_BODY_CONTENTS_HEADER);
 
       if ($infoTypeContentsHeader) {
         const $selectDayDiv = takeQuerySelectorByName($infoTypeContentsHeader, CLS_SELECT_INFO_DAY);
@@ -582,7 +576,7 @@
     const $infoTypeContents = getNodeElementByCalContentsType(_context_, CLS_CAL_BODY_TYPE_INFO);
 
     if ($infoTypeContents) {
-      const $infoTypeContentsBody = takeQuerySelectorByClass($infoTypeContents, CLS_CAL_BODY_CONTENTS__BODY);
+      const $infoTypeContentsBody = takeQuerySelectorByClass($infoTypeContents, CLS_CAL_BODY_CONTENTS_BODY);
 
       if ($infoTypeContentsBody) {
 
@@ -611,7 +605,7 @@
     const $infoTypeContents = getNodeElementByCalContentsType(_context_, CLS_CAL_BODY_TYPE_INFO);
 
     if ($infoTypeContents) {
-      const $infoTypeContentsBody = takeQuerySelectorByClass($infoTypeContents, CLS_CAL_BODY_CONTENTS__BODY);
+      const $infoTypeContentsBody = takeQuerySelectorByClass($infoTypeContents, CLS_CAL_BODY_CONTENTS_BODY);
 
       if ($infoTypeContentsBody) {
         console.log(eventList);
@@ -872,7 +866,7 @@
 
     if ($root) {
 
-      const $calendarBody = takeQuerySelectorByName($root, CLS_CAL_BODY_CONTENTS__BODY);
+      const $calendarBody = takeQuerySelectorByName($root, CLS_CAL_BODY_CONTENTS_BODY);
 
       resetEvent(_context_);
 
@@ -971,7 +965,7 @@
     const $root = _context_.root;
 
     if ($root) {
-      const $calendarBody = takeQuerySelectorByName($root, CLS_CAL_BODY_CONTENTS__BODY);
+      const $calendarBody = takeQuerySelectorByName($root, CLS_CAL_BODY_CONTENTS_BODY);
 
       if ($calendarBody) {
         const $eventBoxContainer = takeQuerySelectorByClass($calendarBody, CLS_CAL_BODY_BODY_DAY_EVENTS);
@@ -1028,16 +1022,6 @@
     }
 
     return result;
-  };
-
-  // 이벤트 캐치 핸들러
-  const catchFunctionHandler = function (_context_, catchFunctionName) {
-    const _catchFunc = getsOptionProperty(_context_, catchFunctionName);  
-    if (!isFunction(_catchFunc)) {
-      console.error(' ' + catchFunctionName + ' is catch function. please checking options parameters ');
-      return false;
-    }
-    _catchFunc();
   };
 
   /**
@@ -1178,10 +1162,10 @@
    * fetch error 다루기..
    * @param {*} err 
    * @param {*} callbackFunc 
-   * @param {*} catchFunc 
+   * @param {*} triggerFunc 
    */
-  const fetchErrorHandler = function (err, callbackFunc, catchFunc) {
-    if (!isFunction(callbackFunc) && !isFunction(catchFunc)) {
+  const fetchErrorHandler = function (err, callbackFunc, triggerFunc) {
+    if (!isFunction(callbackFunc) && !isFunction(triggerFunc)) {
       console.error(err);
     }
 
@@ -1189,10 +1173,45 @@
       callbackFunc(err);
     }
 
-    if (isFunction(catchFunc)) {
+    if (isFunction(triggerFunc)) {
       console.error(err);
-      catchFunc();
+      triggerFunc();
     }
+  };
+
+  /**
+   * 콜백함수 핸들러
+   * @param {*} calledCallbackFunc 사용자가 정의한 콜백함수
+   * @param {*} parameter 사용자가 정의한 콜백함수 호출 파라미터
+   * @param {*} noUseCallbackScript 사용자가 정의하지 않았을 때 호출되는 스크립트.
+   */
+  const callbackFunctionHandler = function (calledCallbackFunc, parameter, noUseCallbackScript) {
+
+    noUseCallbackScript = noUseCallbackScript || (function () { alert(' write callback func!! ')});
+
+    if (calledCallbackFunc) {
+      if (!isFunction(calledCallbackFunc)) {
+        console.error(' ' + CALLBACK_DATE_SELECT_FUNC + ' is callback function. please checking parameters ');
+        return false;
+      }
+      
+      calledCallbackFunc(parameter);
+      return false;
+    } 
+
+    noUseCallbackScript();
+  };
+
+  // 트리거 이벤트 핸들러
+  const triggerFunctionHandler = function (_context_, triggerFunctionName) {
+    const _triggerFunc = getsOptionProperty(_context_, triggerFunctionName);
+    if (_triggerFunc !== null) {
+      if (!isFunction(_triggerFunc)) {
+        console.error(' ' + triggerFunctionName + ' is catch function. please checking options parameters ');
+        return false;
+      }
+      _triggerFunc();
+    } 
   };
 
   /**
@@ -1249,36 +1268,36 @@
   /**
    * query selector by class name wrapper
    */
-  const takeQuerySelectorByClass = function (parents, findClassName) {
-    const nodeList = takeQuerySelectorAll(parents, '.' + findClassName);
+  const takeQuerySelectorByClass = function ($target, findClassName) {
+    const nodeList = takeQuerySelectorAll($target, '.' + findClassName);
     return nodeList ? nodeList[0] : nodeList;
   };
 
-  const takeQuerySelectorAllByClass = function (parents, findClassName) {
-    return takeQuerySelectorAll(parents, '.' + findClassName);
+  const takeQuerySelectorAllByClass = function ($target, findClassName) {
+    return takeQuerySelectorAll($target, '.' + findClassName);
   };
 
   /**
    * query selector by name wrapper
    */
-  const takeQuerySelectorByName = function (parents, findName) {
-    const nodeList = takeQuerySelectorAll(parents, '[name="' + findName + '"]');
+  const takeQuerySelectorByName = function ($target, findName) {
+    const nodeList = takeQuerySelectorAll($target, '[name="' + findName + '"]');
     return nodeList ? nodeList[0] : nodeList;
   };
 
-  const takeQuerySelectorAllByName = function (parents, findName) {
-    return takeQuerySelectorAll(parents, '[name="' + findName + '"]')
+  const takeQuerySelectorAllByName = function ($target, findName) {
+    return takeQuerySelectorAll($target, '[name="' + findName + '"]')
   };
 
   /**
    * query selector wrapper
    */
-  const takeQuerySelectorAll = function (parents, selector) {
-    if (!isElement(parents)) {
+  const takeQuerySelectorAll = function ($target, selector) {
+    if (!isElement($target)) {
       return null;
     }
 
-    return parents.querySelectorAll(selector);
+    return $target.querySelectorAll(selector);
   };
 
   /**
