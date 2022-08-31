@@ -37,6 +37,27 @@ div.__calendar__container__ textarea {
 }
 
 /* =============================
+COMMON
+============================= */
+
+i.up-down-arrow-icon::after {
+  transform: translate(2px, 0) rotate(45deg);
+}
+
+i.up-down-arrow-icon::before {
+  transform: translate(-2px, 0) rotate(-45deg);
+}
+
+@keyframes slide_down{
+  0%{
+    height:0px;
+  }
+  100%{
+    height:120px;
+  }
+}
+
+/* =============================
 CONTAINER
 ============================= */
 .__calendar__container__ {
@@ -143,14 +164,10 @@ BODY
 }
 
 @-webkit-keyframes fade-in {
-  /* 0% { opacity: 0; -webkit-transform: translateY(-100%); }   slide-down
-100% { opacity: 1; -webkit-transform: translateY(0); } */
   from {opacity: 0;}
   to {opacity: 1;}
 }
 @-moz-keyframes fade-in {
-  /* 0% { opacity: 0; -moz-transform: translateY(-100%); }   slide-down
-100% { opacity: 1; -moz-transform: translateY(0); } */
   from {opacity: 0;}
   to {opacity: 1;}
 }
@@ -519,20 +536,22 @@ BODY - TYPE: add
 }
 
 .__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ + .__form__label__input__ {
-  margin-top:20px;
+  margin-top:10px;
 }
 
 .__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ label {
   display: block;
 }
 
-.__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ input,
+.__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ input[type=text],
+.__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ input[type=date],
 .__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ textarea {
   width:100%;
   margin: 10px 0px;
   outline: #667cd9;
   border: 1px solid #C0C0C0;
   padding:0px 5px;
+  border-radius: 5px;
 }
 
 .__calendar__contents__.__type_add__ .__calendar__contents__body__ .__calendar__event__register__form__ .__form__label__input__ input {
@@ -582,4 +601,114 @@ BODY - TYPE: add
 
 .__calendar__contents__.__type_add__ .__calendar__contents__footer__ button[type=reset] {
   border: 1px solid #C0C0C0;
+}
+
+
+/* =============================
+TEST
+============================= */
+
+.__form__label__input__ .custom-select-test {
+  width:100px;
+  display: inline-block;
+  position: relative;
+  margin: 10px 0px;
+}
+
+.__form__label__input__ .custom-select-test input[type=checkbox] {
+  opacity: 0;
+  width:100px;
+  position: absolute;
+  cursor: pointer;
+  height: 40px;
+  z-index: 1;
+}
+
+.__form__label__input__ .custom-select-test .custom-select-selected-option {
+  width:100px;
+  height:40px;
+  border: 1px solid #C0C0C0;
+  display:flex;
+  align-items: center;
+  position: relative;
+  border-radius: 5px;
+}
+
+.__form__label__input__ .custom-select-test .custom-select-selected-option span {
+  margin-left: 7px;
+}
+
+.__form__label__input__ .custom-select-test .custom-select-selected-option i {
+  margin-left:60px;
+  margin-bottom:10px;
+}
+
+.__form__label__input__ .custom-select-test .custom-select-selected-option i::after,
+.__form__label__input__ .custom-select-test .custom-select-selected-option i::before {
+  content: "";
+  position: absolute;
+  background-color: black;
+  width: 3px;
+  height: 9px;
+  transition: all 0.25s ease-in-out;
+}
+
+.__form__label__input__ .custom-select-test input[type=checkbox]:checked ~ .custom-select-selected-option {
+  border:1px solid #667cd9;
+  box-shadow: 0 0 5px #667cd9;
+}
+
+.__form__label__input__ .custom-select-test input[type=checkbox]:checked ~ .custom-select-selected-option i::after {
+  transform: translate(-2px, 0) rotate(45deg);
+}
+
+.__form__label__input__ .custom-select-test input[type=checkbox]:checked ~ .custom-select-selected-option i::before {
+  transform: translate(2px, 0) rotate(-45deg);
+}
+
+.__form__label__input__ .custom-select-test .custom-select-selected-option i::after {
+  transform: translate(2px, 0) rotate(45deg);
+}
+
+.__form__label__input__ .custom-select-test .custom-select-selected-option i::before {
+  transform: translate(-2px, 0) rotate(-45deg);
+}
+
+.__form__label__input__ .custom-select-test input[type=checkbox]:checked ~ .custom-select-option-container {
+  opacity: 1;
+  animation-name:slide_down;
+  animation-duration:0.1s;
+  max-height: 150px;
+  display: block;
+}
+
+.__form__label__input__ .custom-select-test .custom-select-option-container {
+  width:100px;
+  border: 1px solid #C0C0C0;
+  position: absolute;
+  z-index: 1;
+  background: #fff;
+  border-radius: 5px;
+  top:50px;
+  opacity: 0;
+  max-height:150px;
+  display: none;
+  overflow: auto;
+}
+
+.__form__label__input__ .custom-select-test .custom-select-option-container .custom-select-options:hover {
+  background-color: #667cd9;
+  color:#fff;
+}
+
+.__form__label__input__ .custom-select-test .custom-select-option-container .custom-select-options {
+  height:30px;
+  display: flex;
+  align-items: center;
+  padding-left: 7px;
+  cursor: pointer;
+}
+
+.__form__label__input__ .custom-select-test .custom-select-option-container .custom-select-options + .custom-select-options {
+  border-top: 1px solid #F9F9F9;
 }

@@ -267,13 +267,115 @@
                 </div>
 
                 <div class="__form__label__input__">
-                  <label for="__form__start__">시작일</label>
+                  <label for="__form__start__">시작 일</label>
                   <input type="date" id="__form__start__" placeholder="please input event start date time..." />
                 </div>
 
                 <div class="__form__label__input__">
-                  <label for="__form__end__">종료일</label>
+                  <label for="__form__start__hour__">시작 시간</label>
+                  <div class="custom-select-test">
+                    <input type="checkbox" />
+                    <div class="custom-select-selected-option">
+                      <span>00</span>
+                      <i class="up-down-arrow-icon"></i>
+                    </div>
+                    <div class="custom-select-option-container">
+                      <div class="custom-select-options">00</div>
+                      <div class="custom-select-options">01</div>
+                      <div class="custom-select-options">02</div>
+                      <div class="custom-select-options">03</div>
+                      <div class="custom-select-options">04</div>
+                      <div class="custom-select-options">05</div>
+                      <div class="custom-select-options">06</div>
+                      <div class="custom-select-options">07</div>
+                      <div class="custom-select-options">08</div>
+                      <div class="custom-select-options">09</div>
+                      <div class="custom-select-options">10</div>
+                      <div class="custom-select-options">11</div>
+                      <div class="custom-select-options">12</div>
+                      <div class="custom-select-options">13</div>
+                      <div class="custom-select-options">14</div>
+                      <div class="custom-select-options">15</div>
+                      <div class="custom-select-options">16</div>
+                      <div class="custom-select-options">17</div>
+                      <div class="custom-select-options">18</div>
+                      <div class="custom-select-options">19</div>
+                      <div class="custom-select-options">20</div>
+                      <div class="custom-select-options">21</div>
+                      <div class="custom-select-options">22</div>
+                      <div class="custom-select-options">23</div>
+                      <div class="custom-select-options">24</div>
+                    </div>
+                  </div>
+                  <div class="custom-select-test">
+                    <input type="checkbox" />
+                    <div class="custom-select-selected-option">
+                      <span>00</span>
+                      <i class="up-down-arrow-icon"></i>
+                    </div>
+                    <div class="custom-select-option-container">
+                      <div class="custom-select-options">00</div>
+                      <div class="custom-select-options">01</div>
+                      <div class="custom-select-options">02</div>
+                      <div class="custom-select-options">59</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="__form__label__input__">
+                  <label for="__form__end__">종료 일</label>
                   <input type="date" id="__form__end__" placeholder="please input event end date time..." />
+                </div>
+
+                <div class="__form__label__input__">
+                  <label for="__form__end__hour__">종료 시간</label>
+                  <div class="custom-select-test">
+                    <input type="checkbox" />
+                    <div class="custom-select-selected-option">
+                      <span>00</span>
+                      <i class="up-down-arrow-icon"></i>
+                    </div>
+                    <div class="custom-select-option-container">
+                      <div class="custom-select-options">00</div>
+                      <div class="custom-select-options">01</div>
+                      <div class="custom-select-options">02</div>
+                      <div class="custom-select-options">03</div>
+                      <div class="custom-select-options">04</div>
+                      <div class="custom-select-options">05</div>
+                      <div class="custom-select-options">06</div>
+                      <div class="custom-select-options">07</div>
+                      <div class="custom-select-options">08</div>
+                      <div class="custom-select-options">09</div>
+                      <div class="custom-select-options">10</div>
+                      <div class="custom-select-options">11</div>
+                      <div class="custom-select-options">12</div>
+                      <div class="custom-select-options">13</div>
+                      <div class="custom-select-options">14</div>
+                      <div class="custom-select-options">15</div>
+                      <div class="custom-select-options">16</div>
+                      <div class="custom-select-options">17</div>
+                      <div class="custom-select-options">18</div>
+                      <div class="custom-select-options">19</div>
+                      <div class="custom-select-options">20</div>
+                      <div class="custom-select-options">21</div>
+                      <div class="custom-select-options">22</div>
+                      <div class="custom-select-options">23</div>
+                      <div class="custom-select-options">24</div>
+                    </div>
+                  </div>
+                  <div class="custom-select-test">
+                    <input type="checkbox" />
+                    <div class="custom-select-selected-option">
+                      <span>00</span>
+                      <i class="up-down-arrow-icon"></i>
+                    </div>
+                    <div class="custom-select-option-container">
+                      <div class="custom-select-options">00</div>
+                      <div class="custom-select-options">01</div>
+                      <div class="custom-select-options">02</div>
+                      <div class="custom-select-options">59</div>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="__form__label__input__">
@@ -296,12 +398,12 @@
       </div>
     </div>
 
-    <div>
+    <!-- <div>
       <button type="button" id="addEventModal">add event modal</button>
-    </div>
+    </div> -->
 
-    <div id="my-calendar">
-    </div>
+    <!-- <div id="my-calendar">
+    </div> -->
 
     <div class="modal-layer" id="my-modal">
       <div class="modal-container">
@@ -328,9 +430,41 @@
                     </td>
                   </tr>
                   <tr>
-                    <th>시작일</th>
+                    <th>시작 일</th>
                     <td>
                       <input type="date" placeholder="시작일을 입력해주세요." name="start" required />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>시작 시간</th>
+                    <td>
+                      <select>
+                        <option>00</option>
+                        <option>01</option>
+                        <option>02</option>
+                        <option>03</option>
+                        <option>04</option>
+                        <option>05</option>
+                        <option>06</option>
+                        <option>07</option>
+                        <option>08</option>
+                        <option>09</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                        <option>13</option>
+                        <option>14</option>
+                        <option>15</option>
+                        <option>16</option>
+                        <option>17</option>
+                        <option>18</option>
+                        <option>19</option>
+                        <option>20</option>
+                        <option>21</option>
+                        <option>22</option>
+                        <option>23</option>
+                        <option>24</option>
+                      </select>
                     </td>
                   </tr>
                   <tr>
